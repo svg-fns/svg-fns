@@ -2,5 +2,7 @@
   "packageName": "svg-fns",
   "owner": "svg-fns",
   "repo": "svg-fns",
-  "title": "SVG Fns"
+  "title": "SVG Fns",
+  "removedPackages": ["examples/express", "packages/logger"],
+  "removedFeatures": ["Rebrander", "Generators", "LiteMode"]
 }

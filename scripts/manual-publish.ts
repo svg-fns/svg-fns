@@ -148,6 +148,3 @@ try {
 
 // Publish canonical packages
 execSync("tsx scripts/publish-canonical.ts");
-
-execSync("tsx ./scripts/lite.ts");
-execSync(publishCmd + reTag.replace("@", "-lite@"));

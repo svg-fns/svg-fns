@@ -3,7 +3,7 @@ module.exports = {
   tsconfig: "tsconfig.docs.json",
   name: "SVG Fns",
   entryPoints: ["./lib/src"],
-  exclude: ["**/*.test.*", "**/index.ts", "**/declaration.d.ts"],
+  exclude: ["**/*.test.*", "**/declaration.d.ts"],
   entryPointStrategy: "Expand",
   out: "./docs",
   commentStyle: "all",

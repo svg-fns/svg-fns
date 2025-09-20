@@ -87,6 +87,3 @@ try {
 
 // Publish canonical packages
 execSync("tsx scripts/publish-canonical.ts");
-
-execSync("tsx ./scripts/lite.ts");
-execSync(`cd lib && pnpm build && npm publish ${provenance} --access public`);
