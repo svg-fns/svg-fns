@@ -1,6 +1,6 @@
 {
   "name": "@repo/shared",
-  "version": "0.0.18",
+  "version": "0.0.0",
   "private": true,
   "sideEffects": false,
   "main": "./dist/index.js",
@@ -46,8 +46,9 @@
     "nextjs-themes": "^4.0.6",
     "r18gs": "^3.0.1",
     "react-live": "^4.1.8",
-    "react18-loaders": "workspace:*",
+    "react18-loaders": "latest",
     "rehype-raw": "^7.0.0",
-    "typingfx": "^1.2.0"
+    "typingfx": "^1.2.0",
+    "svg-fns": "workspace:*"
   }
 }

@@ -1,7 +1,7 @@
 /** @type {import('typedoc').TypeDocOptions} */
 module.exports = {
   tsconfig: "tsconfig.docs.json",
-  name: "React18 Loaders",
+  name: "SVG Fns",
   entryPoints: ["./lib/src"],
   exclude: ["**/*.test.*", "**/index.ts", "**/declaration.d.ts"],
   entryPointStrategy: "Expand",

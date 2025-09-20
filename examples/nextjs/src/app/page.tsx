@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import MyButton from "./button";
 
 export const metadata = {
-  title: "React 18 Loaders",
+  title: "SVG Fns",
 };
 
 /** next.js landing page */

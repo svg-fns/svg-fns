@@ -1,16 +1,16 @@
 {
-  "name": "react18-loaders",
+  "name": "svg-fns",
   "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
   "private": false,
-  "version": "1.1.11",
-  "description": "A comprehensive library that unleashes the full potential of React 18 server components, providing customizable loading animation components alongside a fullscreen loader container. Designed to seamlessly integrate with React and Next.js.",
+  "version": "0.0.0",
+  "description": "",
   "license": "MPL-2.0",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "repository": "github:react18-tools/turborepo-template",
-  "bugs": "https:/github.com/react18-tools/turborepo-template/issues",
-  "homepage": "https:/turborepo-template-three.vercel.app/",
+  "repository": "github:svg-fns/svg-fns",
+  "bugs": "https://github.com/svg-fns/svg-fns/issues",
+  "homepage": "https://github.com/svg-fns/svg-fns/#readme",
   "sideEffects": false,
   "files": [
     "dist/**"
@@ -34,9 +34,7 @@
     "./*/index.css": "./dist/*/index.css",
     "./dist/*/index.css": "./dist/*/index.css",
     "./index.css": "./dist/index.css",
-    "./styles": "./dist/index.css",
-    "./dist/index.css": "./dist/index.css",
-    "./dist": "./dist/index.css"
+    "./styles": "./dist/index.css"
   },
   "scripts": {
     "build": "tsup && tsc -p tsconfig-build.json && gzip -c dist/index.js | wc -c",
@@ -74,16 +72,14 @@
   "funding": [
     {
       "type": "github",
-      "url": "https:/github.com/sponsors/mayank1513"
+      "url": "https://github.com/sponsors/svg-fns"
     },
     {
-      "type": "individual",
-      "url": "https:/pages.razorpay.com/mayank1513"
+      "type": "github",
+      "url": "https:/github.com/sponsors/mayank1513"
     }
   ],
   "keywords": [
-    "Loading animations",
-    "Fullscreen loader",
     "React",
     "React Loaders",
     "React 18",
