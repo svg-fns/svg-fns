@@ -10,7 +10,7 @@
   "types": "./dist/index.d.ts",
   "repository": "github:svg-fns/svg-fns",
   "bugs": "https://github.com/svg-fns/svg-fns/issues",
-  "homepage": "https://github.com/svg-fns/svg-fns/#readme",
+  "homepage": "https://github.com/svg-fns/svg-fns/tree/main/packages/convert/#readme",
   "sideEffects": false,
   "files": [
     "dist/**"
