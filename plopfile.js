@@ -1,5 +1,3 @@
-import path from "node:path";
-
 export default function (plop) {
   plop.setGenerator("package", {
     description: "Scaffold a new @svg-fns package",
