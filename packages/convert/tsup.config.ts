@@ -15,5 +15,5 @@ export default defineConfig(
       minify: !options.watch,
       esbuildPlugins: [rdiPlugin()],
       ...options,
-    } as Options)
+    }) as Options,
 );

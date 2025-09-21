@@ -1,5 +1,5 @@
 {
-  "name": "@svg-fns/{{kebabCase name}}",
+  "name": "@svg-fns/convert",
   "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
   "private": false,
   "version": "0.0.0",
@@ -12,7 +12,9 @@
   "bugs": "https://github.com/svg-fns/svg-fns/issues",
   "homepage": "https://github.com/svg-fns/svg-fns/#readme",
   "sideEffects": false,
-  "files": ["dist/**"],
+  "files": [
+    "dist/**"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -38,8 +40,14 @@
     "vitest": "^3.2.4"
   },
   "funding": [
-    { "type": "github", "url": "https://github.com/sponsors/svg-fns" },
-    { "type": "github", "url": "https:/github.com/sponsors/mayank1513" }
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/svg-fns"
+    },
+    {
+      "type": "github",
+      "url": "https:/github.com/sponsors/mayank1513"
+    }
   ],
   "keywords": [
     "Customizable",
