@@ -1,6 +1,4 @@
 import { rdiPlugin } from "esbuild-plugin-rdi";
-import react18Plugin from "esbuild-plugin-react18";
-import cssPlugin from "esbuild-plugin-react18-css";
 import { defineConfig, type Options } from "tsup";
 
 export default defineConfig(
@@ -8,16 +6,14 @@ export default defineConfig(
     ({
       format: ["cjs", "esm"],
       target: "es2019",
+      dts: true,
+      tsconfig: "../tsconfig.build.json",
       entry: ["./src/**"],
       sourcemap: false,
       clean: !options.watch,
       bundle: true,
       minify: !options.watch,
-      esbuildPlugins: [
-        react18Plugin({ disableJSXRequireDedup: true }),
-        cssPlugin({ generateScopedName: "[folder]__[local]" }),
-        rdiPlugin(),
-      ],
+      esbuildPlugins: [rdiPlugin()],
       ...options,
     }) as Options,
 );

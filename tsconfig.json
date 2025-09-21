@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "target": "es2019",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "react-jsx",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "allowJs": true,
+    "checkJs": false,
+    "paths": {
+      "@repo/*": ["packages/*/src", "packages/*/dist"]
+    },
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+  },
+  "files": ["./env.d.ts"],
+  "include": ["**/*.d.ts", "**/*.ts", "**/*.tsx", "**/*.vue"],
+  "exclude": [
+    "**/node_modules",
+    "**/dist",
+    "**/build",
+    "**/.turbo",
+    "**/coverage"
+  ]
+}
