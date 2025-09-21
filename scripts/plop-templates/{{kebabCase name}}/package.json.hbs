@@ -1,0 +1,67 @@
+{
+  "name": "@svg-fns/{{kebabCase name}}",
+  "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
+  "private": false,
+  "version": "0.0.0",
+  "description": "",
+  "license": "MPL-2.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "repository": "github:svg-fns/svg-fns",
+  "bugs": "https://github.com/svg-fns/svg-fns/issues",
+  "homepage": "https://github.com/svg-fns/svg-fns/#readme",
+  "sideEffects": false,
+  "files": ["dist/**"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/*",
+      "import": "./dist/*",
+      "require": "./dist/*"
+    },
+    "./dist/*": {
+      "types": "./dist/*",
+      "import": "./dist/*",
+      "require": "./dist/*"
+    },
+    "./styles": "./dist/index.css"
+  },
+  "scripts": {
+    "build": "tsup && gzip -c dist/index.js | wc -c",
+    "clean": "rm -rf dist",
+    "dev": "tsup --watch && tsc -p tsconfig-build.json -w",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "esbuild-plugin-rdi": "^0.0.0",
+    "jsdom": "^27.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.2.4"
+  },
+  "funding": [
+    { "type": "github", "url": "https://github.com/sponsors/svg-fns" },
+    { "type": "github", "url": "https:/github.com/sponsors/mayank1513" }
+  ],
+  "keywords": [
+    "Customizable",
+    "Cutting-edge",
+    "Compatibility",
+    "Frontend development",
+    "UI components",
+    "Progressive",
+    "Web development",
+    "Modern",
+    "Seamless integration",
+    "mayank1513"
+  ]
+}

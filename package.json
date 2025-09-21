@@ -1,6 +1,7 @@
 {
   "name": "turborepo-template",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "turbo build",
     "clean": "turbo clean",
@@ -23,6 +24,7 @@
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^24.5.2",
     "husky": "^9.1.7",
+    "plop": "^4.0.3",
     "tsx": "^4.20.5",
     "turbo": "^2.5.6",
     "turborepo-template-upgrade": "^0.6.2",
