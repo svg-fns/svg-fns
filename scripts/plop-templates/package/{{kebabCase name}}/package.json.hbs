@@ -34,7 +34,7 @@
   "scripts": {
     "build": "tsup && gzip -c dist/index.js | wc -c",
     "clean": "rm -rf dist",
-    "dev": "tsup --watch && tsc -p tsconfig-build.json -w",
+    "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --coverage"
   },
