@@ -51,8 +51,8 @@ declare global {
   }
 }
 
-const mediaListeners: (() => void)[] = [];
 // mock matchMedia
+const mediaListeners: (() => void)[] = [];
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query: string) => ({

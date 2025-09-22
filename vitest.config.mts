@@ -1,3 +1,4 @@
+import { readdirSync } from "node:fs";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
 
@@ -5,10 +6,12 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   plugins: [tsconfigPaths()],
   test: {
-    projects: ["convert", "shared"].map((name) => ({
-      extends: true,
-      test: { name, include: [`packages/${name}/src/**/*.test.{ts,tsx}`] },
-    })),
+    projects: readdirSync("./packages", { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .map(({ name }) => ({
+        extends: true,
+        test: { name, include: [`packages/${name}/src/**/*.test.{ts,tsx}`] },
+      })),
     environment: "jsdom",
     globals: true,
     setupFiles: ["vitest.setup.ts"],
