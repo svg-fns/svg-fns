@@ -13,8 +13,7 @@
     "build": "tsup && tsc -p tsconfig-build.json",
     "clean": "rm -rf dist",
     "dev": "tsup --watch && tsc -p tsconfig-build.json -w",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest run --coverage"
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@repo/scripts": "workspace:*",
@@ -23,8 +22,6 @@
     "@types/node": "^24.5.0",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
-    "@vitejs/plugin-react": "^5.0.2",
-    "@vitest/coverage-v8": "^3.2.4",
     "esbuild-plugin-rdi": "^0.0.0",
     "esbuild-plugin-react18": "^0.2.6",
     "esbuild-plugin-react18-css": "^0.0.4",
@@ -32,9 +29,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2",
-    "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.4"
+    "typescript": "^5.9.2"
   },
   "dependencies": {
     "@m2d/react-markdown": "^1.0.0",

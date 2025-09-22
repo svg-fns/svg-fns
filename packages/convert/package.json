@@ -26,19 +26,14 @@
     "build": "tsup && gzip -c dist/index.js | wc -c",
     "clean": "rm -rf dist",
     "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest run --coverage"
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/node": "^24.5.0",
-    "@vitest/coverage-v8": "^3.2.4",
     "esbuild-plugin-rdi": "^0.0.0",
-    "jsdom": "^27.0.0",
     "sharp": "^0.34.4",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2",
-    "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.4"
+    "typescript": "^5.9.2"
   },
   "funding": [
     {
@@ -64,5 +59,10 @@
   ],
   "peerDependencies": {
     "sharp": "^0.34.4"
+  },
+  "peerDependenciesMeta": {
+    "sharp": {
+      "optional": true
+    }
   }
 }
