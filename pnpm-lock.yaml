@@ -206,6 +206,24 @@ importers:
         specifier: ^5.9.2
         version: 5.9.2
 
+  packages/io:
+    devDependencies:
+      '@types/node':
+        specifier: ^24.5.0
+        version: 24.5.2
+      '@xmldom/xmldom':
+        specifier: ^0.8.11
+        version: 0.8.11
+      esbuild-plugin-rdi:
+        specifier: ^0.0.0
+        version: 0.0.0
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(postcss@8.5.6)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.1)
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.2
+
   packages/shared:
     dependencies:
       '@m2d/react-markdown':
@@ -1765,6 +1783,10 @@ packages:
 
   '@vitest/utils@3.2.4':
     resolution: {integrity: sha512-fB2V0JFrQSMsCo9HiSq3Ezpdv4iYaXRG1Sx8edX3MwxfyNn83mKiGzOcH+Fkxt4MHxr3y42fQi1oeAInqgX2QA==}
+
+  '@xmldom/xmldom@0.8.11':
+    resolution: {integrity: sha512-cQzWCtO6C8TQiYl1ruKNn2U6Ao4o4WBBcbL61yJl84x+j5sOWWFU9X7DpND8XZG3daDppSsigMdfAIl2upQBRw==}
+    engines: {node: '>=10.0.0'}
 
   acorn@8.15.0:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
@@ -5544,6 +5566,8 @@ snapshots:
       loupe: 3.2.1
       tinyrainbow: 2.0.0
 
+  '@xmldom/xmldom@0.8.11': {}
+
   acorn@8.15.0: {}
 
   agent-base@7.1.4: {}
@@ -5645,9 +5669,9 @@ snapshots:
       base64-js: 1.5.1
       ieee754: 1.2.1
 
-  bundle-require@5.1.0(esbuild@0.25.9):
+  bundle-require@5.1.0(esbuild@0.25.10):
     dependencies:
-      esbuild: 0.25.9
+      esbuild: 0.25.10
       load-tsconfig: 0.2.5
 
   cac@6.7.14: {}
@@ -7828,12 +7852,12 @@ snapshots:
 
   tsup@8.5.0(postcss@8.5.6)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.1):
     dependencies:
-      bundle-require: 5.1.0(esbuild@0.25.9)
+      bundle-require: 5.1.0(esbuild@0.25.10)
       cac: 6.7.14
       chokidar: 4.0.3
       consola: 3.4.2
       debug: 4.4.3
-      esbuild: 0.25.9
+      esbuild: 0.25.10
       fix-dts-default-cjs-exports: 1.0.1
       joycon: 3.1.1
       picocolors: 1.1.1
