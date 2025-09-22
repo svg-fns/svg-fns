@@ -1,5 +1,4 @@
 import fs from "node:fs";
-import { type } from "node:os";
 
 export default function (plop) {
   plop.setGenerator("package", {
