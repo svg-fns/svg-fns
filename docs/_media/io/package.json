@@ -1,0 +1,82 @@
+{
+  "name": "@svg-fns/io",
+  "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
+  "private": false,
+  "version": "0.0.0",
+  "description": "Simple and fast utilities to parse, serialize, and load SVG strings and elements. Optimized for both browser and Node.js environments.",
+  "license": "MPL-2.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "repository": "github:svg-fns/svg-fns",
+  "bugs": "https://github.com/svg-fns/svg-fns/issues",
+  "homepage": "https://github.com/svg-fns/svg-fns/tree/main/packages/io/#readme",
+  "sideEffects": false,
+  "files": [
+    "dist/**"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup && gzip -c dist/index.js | wc -c",
+    "clean": "rm -rf dist",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.0",
+    "@xmldom/xmldom": "^0.8.11",
+    "esbuild-plugin-rdi": "^0.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/svg-fns"
+    },
+    {
+      "type": "github",
+      "url": "https:/github.com/sponsors/mayank1513"
+    }
+  ],
+  "keywords": [
+    "svg",
+    "svg parser",
+    "svg io",
+    "svg string",
+    "svg dom",
+    "svg serialization",
+    "svg parse",
+    "svg load",
+    "svg utils",
+    "browser",
+    "nodejs",
+    "utilities",
+    "svg-fns",
+    "svg-fns-io",
+    "Customizable",
+    "Cutting-edge",
+    "Compatibility",
+    "Frontend development",
+    "UI components",
+    "Progressive",
+    "Web development",
+    "Modern",
+    "Seamless integration",
+    "mayank1513"
+  ],
+  "peerDependencies": {
+    "@xmldom/xmldom": "^0.8.11"
+  },
+  "peerDependenciesMeta": {
+    "@xmldom/xmldom": {
+      "optional": true
+    }
+  }
+}
