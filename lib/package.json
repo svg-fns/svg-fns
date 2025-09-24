@@ -44,6 +44,9 @@
     "test": "vitest run --coverage"
   },
   "devDependencies": {
+    "@svg-fns/convert": "workspace:^",
+    "@svg-fns/info": "workspace:^",
+    "@svg-fns/io": "workspace:^",
     "@types/node": "^24.5.0",
     "@vitest/coverage-v8": "^3.2.4",
     "esbuild-plugin-rdi": "^0.0.0",

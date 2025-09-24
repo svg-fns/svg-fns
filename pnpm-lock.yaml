@@ -161,6 +161,15 @@ importers:
 
   lib:
     devDependencies:
+      '@svg-fns/convert':
+        specifier: workspace:^
+        version: link:../packages/convert
+      '@svg-fns/info':
+        specifier: workspace:^
+        version: link:../packages/info
+      '@svg-fns/io':
+        specifier: workspace:^
+        version: link:../packages/io
       '@types/node':
         specifier: ^24.5.0
         version: 24.5.0

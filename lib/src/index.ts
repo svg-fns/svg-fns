@@ -7,27 +7,14 @@
  *  - Convert to fallback raster images
  */
 
+export * from "@svg-fns/convert";
+export * from "@svg-fns/info";
+export * from "@svg-fns/io";
+
 export interface SvgCropResult {
   svg: string;
   scale: number;
 }
-
-/**
- * Convert a raw SVG string into a base64-encoded Data URL.
- *
- * @param svg - Raw SVG string
- * @returns Promise resolving to a `data:image/svg+xml;base64,...` string
- */
-export const svgToBase64 = (svg: string): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const blob = new Blob([svg], { type: "image/svg+xml" });
-    const reader = new FileReader();
-
-    reader.onloadend = () => resolve(reader.result as string);
-    reader.onerror = reject;
-
-    reader.readAsDataURL(blob);
-  });
 
 /**
  * Crop an SVG tightly to its visible contents.
@@ -110,35 +97,4 @@ export const fixGeneratedSvg = (
       );
   }
   return svg;
-};
-
-/**
- * Convert an SVG into another image format (PNG/JPG/etc.).
- *
- * TODO: Implement via Canvas or OffscreenCanvas
- *
- * @param svg - Raw SVG string
- * @param format - Target format (`png`, `jpeg`, etc.)
- */
-export const svgToFormat = async (
-  svg: string,
-  format: "png" | "jpeg" | "webp",
-): Promise<string> => {
-  const svgUrl = await svgToBase64(svg);
-  const img = new Image();
-  img.src = svgUrl;
-
-  await new Promise((resolve) => {
-    img.onload = resolve;
-  });
-
-  const canvas = document.createElement("canvas");
-  canvas.width = img.width;
-  canvas.height = img.height;
-
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Canvas context not available");
-
-  ctx.drawImage(img, 0, 0);
-  return canvas.toDataURL(`image/${format}`);
 };
