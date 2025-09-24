@@ -3,7 +3,7 @@
   "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
   "private": false,
   "version": "0.0.0",
-  "description": "",
+  "description": "Lightweight, tree-shakeable utilities for working with SVGs. Modular design inspired by date-fns — import only what you need.",
   "license": "MPL-2.0",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -30,11 +30,7 @@
       "types": "./dist/*",
       "import": "./dist/*",
       "require": "./dist/*"
-    },
-    "./*/index.css": "./dist/*/index.css",
-    "./dist/*/index.css": "./dist/*/index.css",
-    "./index.css": "./dist/index.css",
-    "./styles": "./dist/index.css"
+    }
   },
   "scripts": {
     "build": "tsup && gzip -c dist/index.js | wc -c",
@@ -45,19 +41,17 @@
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
-    "@svg-fns/convert": "workspace:^",
-    "@svg-fns/info": "workspace:^",
-    "@svg-fns/io": "workspace:^",
     "@types/node": "^24.5.0",
-    "@vitest/coverage-v8": "^3.2.4",
     "@xmldom/xmldom": "^0.8.11",
     "esbuild-plugin-rdi": "^0.0.0",
-    "jsdom": "^27.0.0",
     "sharp": "^0.34.4",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2",
-    "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.4"
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@svg-fns/convert": "workspace:^",
+    "@svg-fns/info": "workspace:^",
+    "@svg-fns/io": "workspace:^"
   },
   "funding": [
     {
@@ -70,14 +64,24 @@
     }
   ],
   "keywords": [
-    "React",
-    "React Loaders",
-    "React 18",
-    "React 19",
-    "Next.js",
-    "Next.js 14",
-    "Next.js 15",
-    "React server components",
+    "svg",
+    "svg utilities",
+    "svg functions",
+    "svg-fns",
+    "svg parser",
+    "svg convert",
+    "svg info",
+    "svg dimensions",
+    "svg colors",
+    "svg to png",
+    "svg to base64",
+    "modular",
+    "tree-shakeable",
+    "browser",
+    "nodejs",
+    "frontend",
+    "graphics",
+    "vector graphics",
     "Customizable",
     "Cutting-edge",
     "Compatibility",

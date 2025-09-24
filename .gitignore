@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 .turbo
-*.log
+*.log*
 .next
 dist
 dist-ssr
