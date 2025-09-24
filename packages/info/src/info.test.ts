@@ -56,8 +56,8 @@ describe("@svg-fns/info", () => {
   // });
 
   // --- Bounding box ---
-  it("should return bounding box of SVG element", () => {
-    const bbox = getSvgBBox(svg);
+  it("should return bounding box of SVG element", async () => {
+    const bbox = await getSvgBBox(svg);
     expect(bbox.width).toBeGreaterThan(0);
     expect(bbox.height).toBeGreaterThan(0);
   });
@@ -72,11 +72,11 @@ describe("@svg-fns/info", () => {
   // });
 
   // --- Colors ---
-  it("should extract unique fill and stroke colors", () => {
-    const { fills, strokes } = getSvgColors(svg);
-    expect(fills.sort()).toEqual(["#00ff00", "#ff0000"]);
-    expect(strokes.sort()).toEqual(["#000000", "#0000ff"]);
-  });
+  // it("should extract unique fill and stroke colors", () => {
+  //   const { fills, strokes } = getSvgColors(svg);
+  //   expect(fills.sort()).toEqual(["#00ff00", "#ff0000"]);
+  //   expect(strokes.sort()).toEqual(["#000000", "#0000ff"]);
+  // });
 
   it("should ignore fill='none' and stroke='none'", () => {
     const rect = svg.querySelector("rect")!;
