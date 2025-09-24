@@ -1,9 +1,9 @@
 /** @type {import('typedoc').TypeDocOptions} */
-module.exports = {
+export default {
   tsconfig: "tsconfig.docs.json",
   name: "SVG Fns",
-  entryPoints: ["./lib/src"],
-  exclude: ["**/*.test.*", "**/declaration.d.ts"],
+  entryPoints: ["./lib/src", "./packages/**/src"],
+  exclude: ["**/*.test.*", "**/declaration.d.ts", "./packages/shared/**"],
   entryPointStrategy: "Expand",
   out: "./docs",
   commentStyle: "all",

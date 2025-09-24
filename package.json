@@ -6,7 +6,7 @@
     "build": "turbo build",
     "clean": "turbo clean",
     "dev": "turbo dev",
-    "doc": "tsx scripts/doc.ts && typedoc && cp _config.yml docs && tsx scripts/add-frontmatter.ts",
+    "doc": "typedoc && cp _config.yml docs && tsx scripts/add-frontmatter.ts",
     "format": "biome check . --write",
     "lint": "biome check .",
     "lint:fix": "biome check . --write",
@@ -21,7 +21,6 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
     "@changesets/cli": "^2.29.7",
-    "@repo/typescript-config": "workspace:*",
     "@types/node": "^24.5.2",
     "@vitest/coverage-v8": "^3.2.4",
     "husky": "^9.1.7",

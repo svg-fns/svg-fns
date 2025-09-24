@@ -1,5 +1,5 @@
 /**
- * @package svg-utils
+ * @packageDocumentation svg-utils
  * A set of utilities for working with SVGs:
  *  - Convert SVG to Base64
  *  - Crop to content
