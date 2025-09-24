@@ -18,9 +18,6 @@ importers:
       '@changesets/cli':
         specifier: ^2.29.7
         version: 2.29.7(@types/node@24.5.2)
-      '@repo/typescript-config':
-        specifier: workspace:*
-        version: link:packages/config-typescript
       '@types/node':
         specifier: ^24.5.2
         version: 24.5.2
@@ -161,6 +158,9 @@ importers:
 
   lib:
     devDependencies:
+      '@resvg/resvg-js':
+        specifier: ^2.6.2
+        version: 2.6.2
       '@svg-fns/convert':
         specifier: workspace:^
         version: link:../packages/convert
@@ -176,6 +176,9 @@ importers:
       '@vitest/coverage-v8':
         specifier: ^3.2.4
         version: 3.2.4(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.5.0)(jsdom@27.0.0(postcss@8.5.6))(sass@1.92.1)(tsx@4.20.5)(yaml@2.8.1))
+      '@xmldom/xmldom':
+        specifier: ^0.8.11
+        version: 0.8.11
       esbuild-plugin-rdi:
         specifier: ^0.0.0
         version: 0.0.0
