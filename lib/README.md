@@ -5,46 +5,88 @@
 [![Version](https://img.shields.io/npm/v/svg-fns.svg?colorB=green)](https://www.npmjs.com/package/svg-fns)
 [![Downloads](https://img.jsdelivr.com/img.shields.io/npm/d18m/svg-fns.svg)](https://www.npmjs.com/package/svg-fns)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/svg-fns)
+[![NPM License](https://img.shields.io/npm/l/svg-fns)](./LICENSE)
 
-SVG Fns is a comprehensive library designed to unlock the full potential of React 18 server components. It provides customizable loading animation components and a fullscreen loader container, seamlessly integrating with React and Next.js.
+**Lightweight, tree-shakable utilities for working with SVGs.**
+Inspired by [`date-fns`](https://date-fns.org/) — small, focused, modular functions.
 
-✅ Fully Treeshakable (import from `svg-fns/client/loader-container`)
+---
 
-✅ Fully TypeScript Supported
+## ✨ Why svg-fns?
 
-✅ Leverages the power of React 18 Server components
+- Works in **browser** & **Node.js**
+- **Zero dependencies** · Fully tree-shakable
+- Modular design — import only what you need
+- Consistent API across packages
+- Perfect for design tools, rendering engines, and build pipelines
 
-✅ Compatible with all React 18 build systems/tools/frameworks
+---
 
-✅ Documented with [Typedoc](https://svg-fns.github.io/svg-fns) ([Docs](https://svg-fns.github.io/svg-fns))
+## 📦 Packages
 
-✅ Examples for Next.js, and Vite
+| Package                                  | Description                     | Example Functions                                                     |
+| ---------------------------------------- | ------------------------------- | --------------------------------------------------------------------- |
+| [`@svg-fns/io`](./packages/io)           | Parse, serialize, and load SVGs | `parseSvg`, `stringifySvg`, `loadSvg`                                 |
+| [`@svg-fns/info`](./packages/info)       | Extract information from SVGs   | `getSvgDimensions`, `getSvgAspectRatio`, `getSvgBBox`, `getSvgColors` |
+| [`@svg-fns/convert`](./packages/convert) | Convert SVGs between formats    | `svgToPng`, `svgToBase64`, `downloadSvg`                              |
 
-> <img src="https://raw.githubusercontent.com/mayank1513/mayank1513/main/popper.png" style="height: 20px"/> Star [this repository](https://github.com/svg-fns/svg-fns) and share it with your friends.
+---
 
-## Getting Started
+## 🚀 Quick Start
 
-### Installation
-
-```bash
-pnpm add svg-fns
-```
-
-**_or_**
+Install the umbrella package:
 
 ```bash
 npm install svg-fns
 ```
 
-**_or_**
+Or install only what you need:
 
 ```bash
-yarn add svg-fns
+npm install @svg-fns/io
+npm install @svg-fns/info
+npm install @svg-fns/convert
 ```
+
+---
+
+## 🛠️ Usage
+
+```ts
+import { parseSvg, getSvgDimensions, svgToPng } from "svg-fns";
+
+const svgEl = parseSvg("<svg width='100' height='50'/>");
+
+console.log(getSvgDimensions(svgEl));
+// → { width: 100, height: 50 }
+
+const pngBlob = await svgToPng(svgEl, { scale: 2 });
+```
+
+---
+
+## 📚 Roadmap
+
+- `@svg-fns/geometry` → vector math, transforms, bounding boxes
+- `@svg-fns/path` → path manipulation (split, join, simplify)
+- `@svg-fns/text` → text measurement & layout
+- More coming…
+
+---
+
+## 🛠️ Contributing
+
+Contributions welcome 🎉
+
+- Open an issue for bugs/ideas
+- PRs should include tests + docs
+- Follow our [contributing guide](./CONTRIBUTING.md)
+
+---
 
 ## License
 
-This library is licensed under the MPL-2.0 open-source license.
+MPL-2.0 © [Mayank Kumar Chaudhari](https://mayank-chaudhari.vercel.app)
 
 > <img src="https://raw.githubusercontent.com/mayank1513/mayank1513/main/popper.png" style="height: 20px"/> Please enroll in [our courses](https://mayank-chaudhari.vercel.app/courses) or [sponsor](https://github.com/sponsors/mayank1513) our work.
 
