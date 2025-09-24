@@ -53,6 +53,7 @@
     "@xmldom/xmldom": "^0.8.11",
     "esbuild-plugin-rdi": "^0.0.0",
     "jsdom": "^27.0.0",
+    "sharp": "^0.34.4",
     "tsup": "^8.5.0",
     "typescript": "^5.9.2",
     "vite-tsconfig-paths": "^5.1.4",
@@ -90,13 +91,17 @@
   ],
   "peerDependencies": {
     "@resvg/resvg-js": "^2.6.2",
-    "@xmldom/xmldom": "^0.8.11"
+    "@xmldom/xmldom": "^0.8.11",
+    "sharp": "^0.34.4"
   },
   "peerDependenciesMeta": {
     "@resvg/resvg-js": {
       "optional": true
     },
     "@xmldom/xmldom": {
+      "optional": true
+    },
+    "sharp": {
       "optional": true
     }
   }
