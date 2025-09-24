@@ -7,8 +7,8 @@
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@svg-fns/info)
 [![NPM License](https://img.shields.io/npm/l/@svg-fns/info)](../../LICENSE)
 
-Lightweight, tree-shakeable utilities to extract **information from SVGs**.  
-Works in both **browser** and **Node.js** environments.
+Lightweight, **tree-shakeable utilities** to extract structured **information from SVGs**.
+Works seamlessly in both **browser** and **Node.js** (with DOM shims like JSDOM).
 
 > Part of the [`svg-fns`](https://github.com/your-org/svg-fns) ecosystem — modular SVG utilities inspired by `date-fns`.
 
@@ -16,11 +16,11 @@ Works in both **browser** and **Node.js** environments.
 
 ## ✨ Features
 
-- Get **dimensions** (`width`, `height`) from SVG elements
-- Compute **aspect ratio**
-- Calculate **bounding boxes**
-- Extract all unique **fill** and **stroke** colors
-- Zero dependencies · Tree-shakeable · Works anywhere
+- Get **dimensions** (`width`, `height`)
+- Compute **aspect ratio** (`width ÷ height`)
+- Calculate **bounding boxes** (browser-native or Resvg fallback)
+- Extract unique **fill** and **stroke** colors
+- ⚡ Zero dependencies · Fully tree-shakeable · Runs anywhere
 
 ---
 
@@ -49,7 +49,6 @@ yarn add @svg-fns/info
 ```ts
 import { getSvgDimensions, getSvgAspectRatio, getSvgBBox, getSvgColors } from "@svg-fns/info";
 
-// Example: working with an <svg> element
 const svg = document.querySelector("svg")!;
 
 // Dimensions
@@ -62,15 +61,16 @@ console.log(getSvgAspectRatio(svg));
 
 // Bounding box
 console.log(getSvgBBox(svg));
-// → { x: 0, y: 0, width: 800, height: 600 }
+// Browser → DOMRect
+// Node.js → Promise<DOMRect> (via Resvg or fallback)
 
 // Colors
 console.log(getSvgColors(svg));
-// → { fills: ["#000", "#f00"], strokes: ["#333"] }
+// → { fills: ["#000", "#f00"], strokes: ["#333"], colors: ["#000", "#f00", "#333"] }
 ```
 
-> 📝 **Note:** These utilities require an `SVGSVGElement`.
-> If you have an SVG **string**, first parse it using [`@svg-fns/io`](https://github.com/your-org/svg-fns/tree/main/packages/io):
+> 📝 **Note:** These APIs require an `SVGSVGElement`.
+> To parse an SVG **string**, use [`@svg-fns/io`](https://github.com/svg-fns/svg-fns/tree/main/packages/io):
 
 ```ts
 import { parseSvg } from "@svg-fns/io";
@@ -83,37 +83,47 @@ console.log(getSvgDimensions(svgElement));
 
 ---
 
-## ⚡ Performance
+## ⚡ Performance Notes
 
-- **Browser:** Uses native DOM methods like `getBBox()` for accuracy and speed.
-- **Node.js:** Works with DOM shims (e.g. JSDOM). Bounding boxes are approximated by traversing elements.
-- **No heavy deps** — keeps your bundle small and tree-shakable.
+- **Browser:** Uses native DOM APIs (`getBBox()`, `getComputedStyle`) → fast and accurate.
+- **Node.js:**
+
+  - With [`@resvg/resvg-js`](https://github.com/yisibl/resvg-js) → accurate bounding boxes (Rust-based).
+  - Without Resvg → fallback approximation by traversing child elements.
+
+- **Aspect ratio:** Returns `Infinity` if `height = 0` (instead of `NaN`).
 
 ---
 
-## 📚 API
+## 📚 API Reference
 
 ### `getSvgDimensions(svg: SVGSVGElement)`
 
-Returns `{ width, height }`.
+- Returns `{ width, height }`.
+- Uses `width`/`height` attrs first, then falls back to `viewBox`.
 
 ### `getSvgAspectRatio(svg: SVGSVGElement)`
 
-Returns `width ÷ height` (defaults to `1` if missing).
+- Returns `width ÷ height`.
+- Returns `Infinity` if `height = 0`.
 
 ### `getSvgBBox(svg: SVGSVGElement)`
 
-Returns `{ x, y, width, height }`. Uses `getBBox()` in browsers, falls back to traversal in Node.js.
+- **Browser:** Returns `DOMRect` (sync).
+- **Node.js:** Returns `Promise<DOMRect>` (async import of Resvg).
+- Fallback → approximate bbox traversal.
 
 ### `getSvgColors(svg: SVGSVGElement)`
 
-Returns `{ fills: string[], strokes: string[] }` — unique colors only.
+- Returns `{ fills: string[], strokes: string[], colors: string[] }`.
+- Browser → uses computed styles (includes CSS inheritance).
+- Node.js → scans element attributes only.
 
 ---
 
 ## 🔗 Related Packages
 
-- [`@svg-fns/io`](../io) — Parse/serialize/load SVGs
+- [`@svg-fns/io`](../io) — Parse, serialize, and load SVGs
 - [`@svg-fns/convert`](../convert) — Base64, Blob, rasterization, downloads
 
 ---
@@ -123,16 +133,19 @@ Returns `{ fills: string[], strokes: string[] }` — unique colors only.
 We welcome contributions! 🎉
 
 - Open an issue for bugs/feature requests.
-- PRs should include tests and documentation.
-- Follow our [contributing guide](../../CONTRIBUTING.md).
+- PRs should include tests + docs.
+- See our [contributing guide](../../CONTRIBUTING.md).
 
 ---
 
-## License
+## 📜 License
 
-This library is licensed under the MPL-2.0 open-source license.
+Licensed under the **MPL-2.0** open-source license.
 
-> <img src="https://raw.githubusercontent.com/mayank1513/mayank1513/main/popper.png" style="height: 20px"/> Please enroll in [our courses](https://mayank-chaudhari.vercel.app/courses) or [sponsor](https://github.com/sponsors/mayank1513) our work.
+---
+
+> <img src="https://raw.githubusercontent.com/mayank1513/mayank1513/main/popper.png" style="height: 20px"/>  
+> Support this project: [Enroll in courses](https://mayank-chaudhari.vercel.app/courses) · [Sponsor on GitHub](https://github.com/sponsors/mayank1513)
 
 <hr />
 

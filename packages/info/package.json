@@ -29,6 +29,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@svg-fns/io": "workspace:^",
     "@types/node": "^24.5.0",
     "esbuild-plugin-rdi": "^0.0.0",
@@ -56,5 +57,13 @@
     "Modern",
     "Seamless integration",
     "mayank1513"
-  ]
+  ],
+  "peerDependencies": {
+    "@resvg/resvg-js": "^2.6.2"
+  },
+  "peerDependenciesMeta": {
+    "@resvg/resvg-js": {
+      "optional": true
+    }
+  }
 }
