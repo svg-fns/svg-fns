@@ -1,6 +1,2 @@
-export {
-  IOConfig,
-  parseSvgBrowser as parseSvg,
-  serializeSvgBrowser as serializeSvg,
-  unsafeParseSvg,
-} from "./io";
+export * from "./client";
+export * from "./types";
