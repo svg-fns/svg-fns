@@ -23,6 +23,10 @@ export default function (plop) {
             .split(",")
             .map((u) => u.trim())
             .filter(Boolean),
+        when: (answers) =>
+          fs.existsSync(
+            `packages/${plop.getHelper("kebabCase")(answers.name)}`,
+          ),
       },
     ],
     actions: (data) => {
@@ -39,49 +43,49 @@ export default function (plop) {
           base: "scripts/plop-templates/package",
           templateFiles: "scripts/plop-templates/package/**",
         });
+      } else {
+        const indexFilePath = `${packagePath}/src/index.ts`;
+        // Add utility files
+        const exportLines = fs.existsSync(indexFilePath)
+          ? new Set(
+              fs
+                .readFileSync(indexFilePath, "utf8")
+                .split("\n")
+                .map((line) => line.trim()),
+            )
+          : new Set();
+
+        data.utilities?.forEach((utility) => {
+          const utilityKebab = plop.getHelper("kebabCase")(utility);
+          const utilityPath = `${packagePath}/src/${utilityKebab}.ts`;
+          const testPath = `${packagePath}/src/${utilityKebab}.test.ts`;
+
+          if (!fs.existsSync(utilityPath)) {
+            actions.push({
+              type: "add",
+              path: utilityPath,
+              templateFile: "scripts/plop-templates/utility.ts.hbs",
+              data: { ...data, utilityName: utility, utilityKebab },
+            });
+            exportLines.add(`export * from "./${utilityKebab}";`);
+          }
+
+          if (!fs.existsSync(testPath)) {
+            actions.push({
+              type: "add",
+              path: testPath,
+              templateFile: "scripts/plop-templates/utility.test.ts.hbs",
+              data: { ...data, utilityName: utility, utilityKebab },
+            });
+          }
+        });
+
+        actions.push({
+          type: "modify",
+          path: indexFilePath,
+          transform: () => `${Array.from(exportLines).join("\n")}\n`,
+        });
       }
-
-      const indexFilePath = `${packagePath}/src/index.ts`;
-      // Add utility files
-      const exportLines = fs.existsSync(indexFilePath)
-        ? new Set(
-            fs
-              .readFileSync(indexFilePath, "utf8")
-              .split("\n")
-              .map((line) => line.trim()),
-          )
-        : new Set();
-
-      data.utilities.forEach((utility) => {
-        const utilityKebab = plop.getHelper("kebabCase")(utility);
-        const utilityPath = `${packagePath}/src/${utilityKebab}.ts`;
-        const testPath = `${packagePath}/src/${utilityKebab}.test.ts`;
-
-        if (!fs.existsSync(utilityPath)) {
-          actions.push({
-            type: "add",
-            path: utilityPath,
-            templateFile: "scripts/plop-templates/utility.ts.hbs",
-            data: { ...data, utilityName: utility, utilityKebab },
-          });
-          exportLines.add(`export * from "./${utilityKebab}";`);
-        }
-
-        if (!fs.existsSync(testPath)) {
-          actions.push({
-            type: "add",
-            path: testPath,
-            templateFile: "scripts/plop-templates/utility.test.ts.hbs",
-            data: { ...data, utilityName: utility, utilityKebab },
-          });
-        }
-      });
-
-      actions.push({
-        type: "modify",
-        path: indexFilePath,
-        transform: () => `${Array.from(exportLines).join("\n")}\n`,
-      });
 
       return actions;
     },

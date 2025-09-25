@@ -19,31 +19,32 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
+    ,
     "./*": {
       "types": [
-        "./dist/*",
+        "./dist/*.d.ts",
         "./dist/*/index.d.ts"
       ],
       "import": [
-        "./dist/*",
+        "./dist/*.mjs",
         "./dist/*/index.mjs"
       ],
       "require": [
-        "./dist/*",
+        "./dist/*.js",
         "./dist/*/index.js"
       ]
     },
     "./dist/*": {
       "types": [
-        "./dist/*",
+        "./dist/*.d.ts",
         "./dist/*/index.d.ts"
       ],
       "import": [
-        "./dist/*",
+        "./dist/*.mjs",
         "./dist/*/index.mjs"
       ],
       "require": [
-        "./dist/*",
+        "./dist/*.js",
         "./dist/*/index.js"
       ]
     }
