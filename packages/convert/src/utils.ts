@@ -1,4 +1,4 @@
-import type { Fit, Format, Options, SvgConversionOptions } from "./convert";
+import type { Fit, Format, Options, SvgConversionOptions } from "./types";
 
 /** Default SVG conversion options */
 export const DEFAULT_OPTIONS = {

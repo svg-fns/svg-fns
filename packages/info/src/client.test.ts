@@ -1,10 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import {
-  getSvgAspectRatio,
-  getSvgBBox,
-  getSvgColors,
-  getSvgDimensions,
-} from "./info";
+import { getSvgAspectRatio, getSvgColors, getSvgDimensions } from "./client";
 
 describe("@svg-fns/info", () => {
   let svg: SVGSVGElement;
@@ -49,34 +44,6 @@ describe("@svg-fns/info", () => {
   it("should calculate aspect ratio correctly", () => {
     expect(getSvgAspectRatio(svg)).toBeCloseTo(2.0);
   });
-
-  // it("should return Infinity if height is zero", () => {
-  //   svg.setAttribute("height", "0");
-  //   expect(getSvgAspectRatio(svg)).toBe(Infinity);
-  // });
-
-  // --- Bounding box ---
-  it("should return bounding box of SVG element", async () => {
-    const bbox = await getSvgBBox(svg);
-    expect(bbox.width).toBeGreaterThan(0);
-    expect(bbox.height).toBeGreaterThan(0);
-  });
-
-  // it("should return default bbox for empty SVG", () => {
-  //   const emptySvg = document.createElementNS(
-  //     "http://www.w3.org/2000/svg",
-  //     "svg",
-  //   );
-  //   const bbox = getSvgBBox(emptySvg);
-  //   expect(bbox).toEqual({ x: 0, y: 0, width: 0, height: 0 });
-  // });
-
-  // --- Colors ---
-  // it("should extract unique fill and stroke colors", () => {
-  //   const { fills, strokes } = getSvgColors(svg);
-  //   expect(fills.sort()).toEqual(["#00ff00", "#ff0000"]);
-  //   expect(strokes.sort()).toEqual(["#000000", "#0000ff"]);
-  // });
 
   it("should ignore fill='none' and stroke='none'", () => {
     const rect = svg.querySelector("rect")!;

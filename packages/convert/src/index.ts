@@ -1,9 +1,2 @@
-export {
-  Fit,
-  Format,
-  Options,
-  SvgConversionOptions,
-  SvgConversionResult,
-  svgToBlob,
-  svgToDataUrlBrowser as svgToDataUrl,
-} from "./convert";
+export * from "./client";
+export * from "./types";
