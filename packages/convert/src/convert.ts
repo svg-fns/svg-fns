@@ -126,7 +126,10 @@ export const svgToBlob = async (
     ? new OffscreenCanvas(w, h)
     : Object.assign(document.createElement("canvas"), { width: w, height: h });
 
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d") as
+    | CanvasRenderingContext2D
+    | OffscreenCanvasRenderingContext2D;
+
   if (!ctx) throw new Error("[svgToBlob] Canvas context not available");
 
   if (background) {
