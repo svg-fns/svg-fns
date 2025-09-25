@@ -2,7 +2,7 @@
   "name": "@svg-fns/info",
   "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
   "private": false,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Lightweight, tree-shakeable utilities to extract structured information (dimensions, aspect ratio, bounding boxes, colors) from SVG elements. Works in both browser and Node.js.",
   "license": "MPL-2.0",
   "main": "./dist/index.js",

@@ -2,7 +2,7 @@
   "name": "@svg-fns/svg2img",
   "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
   "private": false,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Utility functions to convert SVGs into different formats (Base64, Blob, Data URI, raster images). Works in client and server with optimal performance.",
   "license": "MPL-2.0",
   "main": "./dist/index.js",
