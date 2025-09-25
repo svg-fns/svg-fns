@@ -1,3 +1,5 @@
+import { isValidColor } from "@svg-fns/utils";
+
 /**
  * @packageDocumentation
  * @module @svg-fns/info
@@ -144,19 +146,6 @@ export const getSvgBBox = async (svg: SVGSVGElement): Promise<DOMRect> => {
     return getSvgBBoxApproximation(svg);
   }
 };
-
-/**
- * Validate whether a color string is meaningful.
- *
- * - Filters out `"none"`, `"transparent"`, CSS URL refs, and fully transparent rgba.
- */
-export const isValidColor = (color: string | null): color is string =>
-  !!color &&
-  color.trim() !== "" &&
-  color !== "none" &&
-  color !== "transparent" &&
-  !color.startsWith("url(") &&
-  color !== "rgba(0, 0, 0, 0)";
 
 /**
  * Extract fill & stroke colors using computed styles (browser only) - high fidelity.

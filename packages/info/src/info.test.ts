@@ -4,7 +4,7 @@ import {
   getSvgBBox,
   getSvgColors,
   getSvgDimensions,
-} from "../src";
+} from "./info";
 
 describe("@svg-fns/info", () => {
   let svg: SVGSVGElement;
