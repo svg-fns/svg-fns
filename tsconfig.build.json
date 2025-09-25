@@ -3,7 +3,7 @@
   "compilerOptions": {
     "rootDir": "../../",
     "paths": {
-      "@repo/*": ["packages/*/dist", "packages/*/src"]
+      "@svg-fns/*": ["packages/*/dist", "packages/*/src"]
     }
   }
 }

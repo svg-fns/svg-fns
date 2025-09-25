@@ -7,7 +7,7 @@ export default defineConfig(
       format: ["cjs", "esm"],
       target: "es2019",
       dts: true,
-      // tsconfig: "../../tsconfig.build.json",
+      tsconfig: "../../tsconfig.build.json",
       entry: ["./src/index.ts"],
       sourcemap: false,
       clean: !options.watch,
