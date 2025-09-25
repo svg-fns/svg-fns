@@ -3,7 +3,7 @@
   "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
   "private": false,
   "version": "0.0.0",
-  "description": "Utility functions to convert SVGs into different formats (Base64, Blob, Data URI, raster images). Works in browser and Node.js with optimal performance.",
+  "description": "Utility functions to convert SVGs into different formats (Base64, Blob, Data URI, raster images). Works in client and server with optimal performance.",
   "license": "MPL-2.0",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -21,15 +21,15 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./node": {
-      "types": "./dist/node.d.ts",
-      "import": "./dist/node.mjs",
-      "require": "./dist/node.js"
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.js"
     },
-    "./dist/node": {
-      "types": "./dist/node.d.ts",
-      "import": "./dist/node.mjs",
-      "require": "./dist/node.js"
+    "./dist/*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.js"
     }
   },
   "scripts": {
