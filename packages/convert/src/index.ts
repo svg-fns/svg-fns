@@ -1,1 +1,9 @@
-export { svgToBlob, svgToDataUrlBrowser as svgToDataUrl } from "./convert";
+export {
+  Fit,
+  Format,
+  Options,
+  SvgConversionOptions,
+  SvgConversionResult,
+  svgToBlob,
+  svgToDataUrlBrowser as svgToDataUrl,
+} from "./convert";
