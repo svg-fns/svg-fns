@@ -30,6 +30,7 @@
     "**/dist",
     "**/build",
     "**/.turbo",
+    "**/.tsup",
     "**/coverage"
   ]
 }

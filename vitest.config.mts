@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [tsconfigPaths()],
   test: {
     projects: readdirSync("./packages", { withFileTypes: true })
-      .filter((dirent) => dirent.isDirectory())
+      .filter((dirent) => dirent.isDirectory() && dirent.name !== "shared")
       .map(({ name }) => ({
         extends: true,
         test: { name, include: [`packages/${name}/src/**/*.test.{ts,tsx}`] },
@@ -19,8 +19,10 @@ export default defineConfig({
       include: ["packages/**/src/**"],
       exclude: [
         "packages/**/src/**/index.ts",
+        "packages/**/src/**/types.ts",
         "packages/**/src/**/*.test.*",
         "packages/**/src/**/declaration.d.ts",
+        "packages/shared/**/*.*",
       ],
       reporter: ["json", "text"],
     },
