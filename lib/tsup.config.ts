@@ -8,7 +8,7 @@ export default defineConfig(
       target: "es2019",
       dts: true,
       tsconfig: "../tsconfig.build.json",
-      entry: ["./src/**"],
+      entry: ["./src/index.ts", "./src/server.ts"],
       sourcemap: false,
       clean: !options.watch,
       bundle: true,

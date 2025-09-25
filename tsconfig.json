@@ -6,8 +6,9 @@
     "strict": true,
     "jsx": "react-jsx",
     "importHelpers": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
@@ -17,6 +18,7 @@
     "allowJs": true,
     "checkJs": false,
     "paths": {
+      "@svg-fns/*": ["packages/*/src", "packages/*/dist"],
       "@repo/*": ["packages/*/src", "packages/*/dist"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
@@ -28,6 +30,7 @@
     "**/dist",
     "**/build",
     "**/.turbo",
+    "**/.tsup",
     "**/coverage"
   ]
 }

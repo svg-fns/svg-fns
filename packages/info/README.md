@@ -124,7 +124,7 @@ console.log(getSvgDimensions(svgElement));
 ## 🔗 Related Packages
 
 - [`@svg-fns/io`](../io) — Parse, serialize, and load SVGs
-- [`@svg-fns/convert`](../convert) — Base64, Blob, rasterization, downloads
+- [`@svg-fns/svg2img`](../convert) — Base64, Blob, rasterization, downloads
 
 ---
 
