@@ -28,7 +28,7 @@ Inspired by [`date-fns`](https://date-fns.org/) — small, focused, modular func
 | ---------------------------------------- | ------------------------------- | --------------------------------------------------------------------- |
 | [`@svg-fns/io`](./packages/io)           | Parse, serialize, and load SVGs | `parseSvg`, `stringifySvg`, `loadSvg`                                 |
 | [`@svg-fns/info`](./packages/info)       | Extract information from SVGs   | `getSvgDimensions`, `getSvgAspectRatio`, `getSvgBBox`, `getSvgColors` |
-| [`@svg-fns/convert`](./packages/convert) | Convert SVGs between formats    | `svgToPng`, `svgToBase64`, `downloadSvg`                              |
+| [`@svg-fns/svg2img`](./packages/convert) | Convert SVGs between formats    | `svgToPng`, `svgToBase64`, `downloadSvg`                              |
 
 ---
 
@@ -45,7 +45,7 @@ Or install only what you need:
 ```bash
 npm install @svg-fns/io
 npm install @svg-fns/info
-npm install @svg-fns/convert
+npm install @svg-fns/svg2img
 ```
 
 ---

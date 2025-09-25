@@ -1,5 +1,5 @@
 ---
-"@svg-fns/convert": major
+"@svg-fns/svg2img": major
 ---
 
 ### 🆕 What's changing

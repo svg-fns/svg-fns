@@ -1,10 +1,10 @@
-# @svg-fns/convert <img src="https://raw.githubusercontent.com/mayank1513/mayank1513/main/popper.png" style="height: 40px"/>
+# @svg-fns/svg2img <img src="https://raw.githubusercontent.com/mayank1513/mayank1513/main/popper.png" style="height: 40px"/>
 
 [![test](https://github.com/svg-fns/svg-fns/actions/workflows/test.yml/badge.svg)](https://github.com/svg-fns/svg-fns/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/svg-fns/svg-fns/graph/badge.svg)](https://codecov.io/gh/svg-fns/svg-fns)
-[![Version](https://img.shields.io/npm/v/@svg-fns/convert.svg?colorB=green)](https://www.npmjs.com/package/@svg-fns/convert)
-[![Downloads](https://img.jsdelivr.com/img.shields.io/npm/d18m/@svg-fns/convert.svg)](https://www.npmjs.com/package/@svg-fns/convert)
-![npm bundle size](https://img.shields.io/bundlephobia/minzip/@svg-fns/convert)
+[![Version](https://img.shields.io/npm/v/@svg-fns/svg2img.svg?colorB=green)](https://www.npmjs.com/package/@svg-fns/svg2img)
+[![Downloads](https://img.jsdelivr.com/img.shields.io/npm/d18m/@svg-fns/svg2img.svg)](https://www.npmjs.com/package/@svg-fns/svg2img)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/@svg-fns/svg2img)
 
 > **Convert SVG to PNG, JPEG, WebP, AVIF, Data URL, Blob, or Buffer — isomorphic, tree-shakeable, and typed.**
 
@@ -12,7 +12,7 @@
 
 ## ✨ Overview
 
-`@svg-fns/convert` makes it effortless to transform raw SVG strings into modern image formats.
+`@svg-fns/svg2img` makes it effortless to transform raw SVG strings into modern image formats.
 
 - **Isomorphic** → works in Browser (Canvas API) & Node.js (Sharp).
 - **Tree-shakeable** → zero-bloat, minimal runtime.
@@ -25,7 +25,7 @@
 ## 🚀 Quick Start
 
 ```ts
-import { svgToDataUrl } from "@svg-fns/convert";
+import { svgToDataUrl } from "@svg-fns/svg2img";
 
 const mySvg = `<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
   <circle cx="50" cy="50" r="40" fill="royalblue" />
@@ -45,9 +45,9 @@ document.body.appendChild(img);
 
 ```sh
 # Browser or universal usage
-pnpm add @svg-fns/convert
-npm install @svg-fns/convert
-yarn add @svg-fns/convert
+pnpm add @svg-fns/svg2img
+npm install @svg-fns/svg2img
+yarn add @svg-fns/svg2img
 ```
 
 👉 **For Node.js** (Buffer conversion), install [sharp](https://github.com/lovell/sharp):
@@ -81,7 +81,7 @@ pnpm add sharp
 ### 1. Browser → JPEG Blob
 
 ```ts
-import { svgToBlob } from "@svg-fns/convert";
+import { svgToBlob } from "@svg-fns/svg2img";
 
 const blob = await svgToBlob(mySvg, {
   format: "jpeg",
@@ -98,7 +98,7 @@ document.querySelector("img")!.src = url;
 ### 2. Node.js → WebP file
 
 ```ts
-import { svgToBuffer } from "@svg-fns/convert";
+import { svgToBuffer } from "@svg-fns/svg2img";
 import { writeFile } from "fs/promises";
 
 const buffer = await svgToBuffer(mySvg, {
@@ -145,7 +145,7 @@ We welcome issues & PRs!
 
 ## ❤️ Sponsor
 
-If `@svg-fns/convert` saves you time, consider [sponsoring](https://github.com/sponsors/mayank1513).
+If `@svg-fns/svg2img` saves you time, consider [sponsoring](https://github.com/sponsors/mayank1513).
 Your support fuels maintenance, features & community growth.
 
 ---

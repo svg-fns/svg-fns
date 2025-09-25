@@ -158,15 +158,15 @@ importers:
 
   lib:
     dependencies:
-      '@svg-fns/convert':
-        specifier: workspace:^
-        version: link:../packages/convert
       '@svg-fns/info':
         specifier: workspace:^
         version: link:../packages/info
       '@svg-fns/io':
         specifier: workspace:^
         version: link:../packages/io
+      '@svg-fns/svg2img':
+        specifier: workspace:^
+        version: link:../packages/svg2img
     devDependencies:
       '@resvg/resvg-js':
         specifier: ^2.6.2
@@ -191,27 +191,6 @@ importers:
         version: 5.9.2
 
   packages/config-typescript: {}
-
-  packages/convert:
-    devDependencies:
-      '@svg-fns/utils':
-        specifier: workspace:^
-        version: link:../utils
-      '@types/node':
-        specifier: ^24.5.0
-        version: 24.5.2
-      esbuild-plugin-rdi:
-        specifier: ^0.0.0
-        version: 0.0.0
-      sharp:
-        specifier: ^0.34.4
-        version: 0.34.4
-      tsup:
-        specifier: ^8.5.0
-        version: 8.5.0(postcss@8.5.6)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.1)
-      typescript:
-        specifier: ^5.9.2
-        version: 5.9.2
 
   packages/info:
     devDependencies:
@@ -327,6 +306,27 @@ importers:
       react-dom:
         specifier: ^19.1.1
         version: 19.1.1(react@19.1.1)
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(postcss@8.5.6)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.1)
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.2
+
+  packages/svg2img:
+    devDependencies:
+      '@svg-fns/utils':
+        specifier: workspace:^
+        version: link:../utils
+      '@types/node':
+        specifier: ^24.5.0
+        version: 24.5.2
+      esbuild-plugin-rdi:
+        specifier: ^0.0.0
+        version: 0.0.0
+      sharp:
+        specifier: ^0.34.4
+        version: 0.34.4
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(postcss@8.5.6)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.1)

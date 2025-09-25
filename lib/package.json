@@ -67,7 +67,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@svg-fns/convert": "workspace:^",
+    "@svg-fns/svg2img": "workspace:^",
     "@svg-fns/info": "workspace:^",
     "@svg-fns/io": "workspace:^"
   },
