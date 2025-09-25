@@ -18,6 +18,34 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./*": {
+      "types": [
+        "./dist/*",
+        "./dist/*/index.d.ts"
+      ],
+      "import": [
+        "./dist/*",
+        "./dist/*/index.mjs"
+      ],
+      "require": [
+        "./dist/*",
+        "./dist/*/index.js"
+      ]
+    },
+    "./dist/*": {
+      "types": [
+        "./dist/*",
+        "./dist/*/index.d.ts"
+      ],
+      "import": [
+        "./dist/*",
+        "./dist/*/index.mjs"
+      ],
+      "require": [
+        "./dist/*",
+        "./dist/*/index.js"
+      ]
     }
   },
   "scripts": {
