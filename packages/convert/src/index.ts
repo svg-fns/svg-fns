@@ -1,1 +1,1 @@
-export * from "./convert";
+export { svgToBlob, svgToDataUrlBrowser as svgToDataUrl } from "./convert";

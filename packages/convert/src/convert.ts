@@ -1,81 +1,125 @@
-import { blobToDataURLBrowser, canvasToBlob, parseOptions } from "./utils";
+import { isNode } from "@svg-fns/utils";
+import {
+  blobToDataURLBrowser,
+  canvasToBlob,
+  parseOptions,
+  resolveDimensions,
+} from "./utils";
 
 /**
- * Supported output formats for SVG conversion.
- * `avif` requires modern browsers or Node; falls back if unsupported.
- */
-export type Format = "png" | "jpeg" | "webp" | "avif" | "svg";
-
-/**
- * How the image should be resized to fit the target dimensions:
+ * Supported output formats for SVG → image conversion.
  *
- * - **cover**   → Scale to fully cover the box, cropping if necessary.
- * - **contain** → Scale to fit entirely inside the box, letterboxing if needed.
- * - **fill**    → Stretch to exactly match width/height, ignoring aspect ratio.
- * - **inside**  → Like "contain", but never upscale (only shrink if too large).
- * - **outside** → Like "cover", but never downscale (only grow if too small).
+ * - **Raster**: `"png"`, `"jpeg"`, `"jpg"`, `"webp"`, `"avif"`
+ * - **Vector**: `"svg"` (fastest, no quality loss)
+ *
+ * ⚠️ `"avif"` requires modern browsers or Node.js with AVIF support.
+ * Falls back to `"png"` if unsupported.
+ */
+export type Format = "png" | "jpg" | "jpeg" | "webp" | "avif" | "svg";
+
+/**
+ * Strategies for fitting SVG into target dimensions.
+ * - **cover**   → Fill box completely, cropping overflow.
+ * - **contain** → Fit entirely inside, may letterbox.
+ * - **fill**    → Stretch to match box exactly (ignore aspect ratio).
+ * - **inside**  → Like contain, but never upscale.
+ * - **outside** → Like cover, but never downscale.
  */
 export type Fit = "cover" | "contain" | "fill" | "inside" | "outside";
 
 /**
- * Options to control SVG conversion output.
+ * Options for SVG → image conversion.
  */
 export interface SvgConversionOptions {
-  /** Output format. Defaults to "svg". */
+  /** Output format. Default: `"svg"`. */
   format?: Format;
 
-  /** Output quality (0–1). Only applies to lossy formats like jpeg/webp. Default: 0.92 */
+  /** Quality factor (0–1). Applies only to lossy formats (`jpeg`/`webp`/`avif`). Default: `0.92`. */
   quality?: number;
 
-  /** Target width in pixels. Defaults to intrinsic SVG width. */
+  /** Target width in px. Default: intrinsic SVG width. */
   width?: number;
 
-  /** Target height in pixels. Defaults to intrinsic SVG height. */
+  /** Target height in px. Default: intrinsic SVG height. */
   height?: number;
 
-  /** Scaling factor for width/height. Useful for high-DPI rendering. Default: 1 */
+  /** Scale factor applied to width/height. Default: `1`. */
   scale?: number;
 
-  /** Fill background color (e.g., "#fff"). Useful for formats without transparency (jpeg). */
+  /** Background color (e.g. `"#fff"`). Recommended for non-transparent formats like `jpeg`. */
   background?: string;
+
   /**
-   * How the image should be resized to fit the target dimensions:
-   *
-   * - **cover**   → Scale to fully cover the box, cropping if necessary.
-   * - **contain** → Scale to fit entirely inside the box, letterboxing if needed.
-   * - **fill**    → Stretch to exactly match width/height, ignoring aspect ratio.
-   * - **inside**  → Like "contain", but never upscale (only shrink if too large).
-   * - **outside** → Like "cover", but never downscale (only grow if too small).
+   * Resizing mode:
+   * - `"cover"`   → Fill box completely, crop overflow
+   * - `"contain"` → Fit inside box, may letterbox
+   * - `"fill"`    → Stretch to exact size, ignore aspect ratio
+   * - `"inside"`  → Like contain, but never upscale
+   * - `"outside"` → Like cover, but never downscale
    */
   fit?: Fit;
 }
 
+/** Shorthand option type: `SvgConversionOptions | Format | Fit | quality (0 - 1)`. */
 export type Options = SvgConversionOptions | Format | Fit | number;
 
 /**
- * Converts an SVG string to a Blob (browser).
- * @param svg The SVG content as a string.
- * @param opts Conversion options.
- * @returns A Promise that resolves with a Blob representing the converted image.
+ * Standardized result from all conversion functions.
  */
-export const svgToBlob = async (svg: string, opts?: Options): Promise<Blob> => {
-  const { format, quality, width, height, scale, background, fit } =
-    parseOptions(opts);
-  const svgBlob = new Blob([svg], { type: "image/svg+xml" });
+export interface SvgConversionResult {
+  /** Blob (browser only). */
+  blob?: Blob;
+  /** Buffer (Node.js only). */
+  buffer?: Buffer;
+  /** Base64 data URL (works in all envs). */
+  dataUrl?: string;
+  /** Final width after resizing/scaling. */
+  width?: number;
+  /** Final height after resizing/scaling. */
+  height?: number;
+  /** Output format. */
+  format: Format;
+  /** Applied scale factor. */
+  scale?: number;
+}
 
-  if (format === "svg") return svgBlob;
+/**
+ * Convert SVG → Blob in the browser.
+ *
+ * @param svg - The SVG markup string.
+ * @param opts - Conversion options (format, width, height, fit, etc.).
+ * @returns A promise resolving to {@link SvgConversionResult}. If format is `"svg"`, use `@svg-fns/info`, or `@svg-fns/geometry` to get SVG dimensions or to transform
+ *
+ * Notes:
+ * - Prefers `OffscreenCanvas` for better performance; falls back to `<canvas>` if unavailable.
+ * - If `format === "svg"` → returns the raw Blob; **width, height, scale are undefined**
+ *   (no rasterization performed). Options like `fit` and `scale` are ignored.
+ * - Ideal for client-side exports, downloads, and previews.
+ */
+export const svgToBlob = async (
+  svg: string,
+  opts?: Options,
+): Promise<SvgConversionResult> => {
+  const { format, quality, scale, background, fit, ...rest } =
+    parseOptions(opts);
+
+  const svgBlob = new Blob([svg], { type: "image/svg+xml" });
+  if (format === "svg") {
+    return { blob: svgBlob, format };
+  }
 
   const svgUrl = await blobToDataURLBrowser(svgBlob);
   const img = new Image();
   img.src = svgUrl;
-
   await new Promise<void>((res, rej) => {
     img.onload = () => res();
     img.onerror = rej;
   });
 
-  const w = Math.round((width ?? img.width) * scale);
-  const h = Math.round((height ?? img.height) * scale);
+  const { width, height } = resolveDimensions(rest, img);
+
+  const w = Math.round(width * scale);
+  const h = Math.round(height * scale);
 
   const isOffscreenCanvas = typeof OffscreenCanvas !== "undefined";
   const canvas = isOffscreenCanvas
@@ -83,35 +127,35 @@ export const svgToBlob = async (svg: string, opts?: Options): Promise<Blob> => {
     : Object.assign(document.createElement("canvas"), { width: w, height: h });
 
   const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Canvas context not available");
+  if (!ctx) throw new Error("[svgToBlob] Canvas context not available");
 
-  // Optional background
   if (background) {
     ctx.fillStyle = background;
     ctx.fillRect(0, 0, w, h);
   }
 
-  // Handle fit options
-  if (fit === "fill") {
-    // Default stretch
+  if (fit === "fill" || !rest.width || !rest.height) {
     ctx.drawImage(img, 0, 0, w, h);
   } else {
     const scaleX = w / img.width;
     const scaleY = h / img.height;
-
     let scaleFactor: number;
+
     switch (fit) {
       case "cover":
-        scaleFactor = Math.max(scaleX, scaleY); // cover fully, may crop
+        scaleFactor = Math.max(scaleX, scaleY);
         break;
       case "contain":
-        scaleFactor = Math.min(scaleX, scaleY); // fit inside, may letterbox
+        scaleFactor = Math.min(scaleX, scaleY);
         break;
       case "inside":
-        scaleFactor = Math.min(1, Math.min(scaleX, scaleY)); // shrink to fit, never upscale
+        scaleFactor = Math.min(1, Math.min(scaleX, scaleY));
         break;
       case "outside":
-        scaleFactor = Math.max(1, Math.max(scaleX, scaleY)); // grow to cover, never downscale
+        scaleFactor = Math.max(1, Math.max(scaleX, scaleY));
+        break;
+      default:
+        scaleFactor = Math.min(scaleX, scaleY);
         break;
     }
 
@@ -126,92 +170,135 @@ export const svgToBlob = async (svg: string, opts?: Options): Promise<Blob> => {
     );
   }
 
-  const mimeType = `image/${format}`;
+  const mimeType = `image/${format === "jpg" ? "jpeg" : format}`;
   try {
-    return await canvasToBlob(isOffscreenCanvas, canvas, mimeType, quality);
+    const blob = await canvasToBlob(
+      isOffscreenCanvas,
+      canvas,
+      mimeType,
+      quality,
+    );
+    return { blob, width: w, height: h, format, scale };
   } catch {
-    console.warn(`[svgToBlob] Format ${format} not supported, falling back.`);
-    return canvasToBlob(isOffscreenCanvas, canvas, undefined, quality);
+    console.warn(
+      `[svgToBlob] Format "${format}" unsupported. Falling back to PNG.`,
+    );
+    const blob = await canvasToBlob(
+      isOffscreenCanvas,
+      canvas,
+      "image/png",
+      quality,
+    );
+    return { blob, width: w, height: h, format: "png", scale };
   }
 };
 
 /**
- * Converts an SVG string to a Buffer (Node.js).
- * @param svg The SVG content as a string.
- * @param opts Conversion options.
- * @returns A Promise that resolves with a Node.js Buffer of the converted image.
+ * Convert SVG → Buffer (Node.js).
+ *
+ * @param svg - The SVG markup string.
+ * @param opts - Conversion options.
+ * @returns A promise resolving to {@link SvgConversionResult}.
+ *
+ * Behavior:
+ * - Uses `sharp` internally for fast rasterization.
+ * - If both `width` and `height` are missing → infers from intrinsic SVG metadata.
+ * - If only one is defined → computes the other using aspect ratio × scale factor.
+ * - If `format === "svg"` → simply returns a raw `Buffer`.
  */
 export const svgToBuffer = async (
   svg: string,
   opts?: Options,
-): Promise<Buffer> => {
-  const { format, quality, width, height, scale, background, fit } =
-    parseOptions(opts);
-  const sharp = await import("sharp");
-  let pipeline = sharp.default(Buffer.from(svg));
+): Promise<SvgConversionResult> => {
+  try {
+    const { format, quality, width, height, scale, background, fit } =
+      parseOptions(opts);
 
-  // Apply optional background
-  if (background) pipeline = pipeline.flatten({ background });
+    const svgBuffer = Buffer.from(svg);
 
-  // Determine final width/height with scale
-  const finalWidth = width ? Math.round(width * scale) : undefined;
-  const finalHeight = height ? Math.round(height * scale) : undefined;
+    if (format === "svg") {
+      return { buffer: svgBuffer, format };
+    }
 
-  if (finalWidth || finalHeight) {
-    pipeline = pipeline.resize(finalWidth, finalHeight, {
-      fit,
-      background,
-    });
+    const sharp = await import("sharp");
+    let pipeline = sharp.default(svgBuffer);
+
+    if (background) pipeline = pipeline.flatten({ background });
+
+    let finalWidth = width;
+    let finalHeight = height;
+
+    if (!finalWidth || !finalHeight) {
+      const meta = await pipeline.metadata();
+
+      const dimensions = resolveDimensions({ width, height }, meta);
+      finalHeight = dimensions.height;
+      finalWidth = dimensions.width;
+    }
+
+    finalHeight = Math.round(finalHeight * scale);
+    finalWidth = Math.round(finalWidth * scale);
+
+    pipeline = pipeline.resize(finalWidth, finalHeight, { fit, background });
+
+    const buffer = await pipeline
+      .toFormat(format, { quality: Math.round(quality * 100) })
+      .toBuffer();
+
+    return { buffer, width: finalWidth, height: finalHeight, format, scale };
+  } catch (err) {
+    console.error(err);
+    throw new Error("[svgToBuffer] Failed. Ensure `sharp` is installed.");
   }
-
-  return pipeline
-    .toFormat(format, { quality: Math.round(quality * 100) })
-    .toBuffer();
 };
 
 /**
- * Converts an SVG string to a Data URL in the browser.
- * @param svg SVG content.
- * @param opts Conversion options.
- * @returns A Promise resolving to a base64 Data URL.
+ * Convert SVG → Data URL (Browser).
+ *
+ * Encodes output as `data:image/...;base64,...` for direct embedding in:
+ * - `<img>` tags
+ * - CSS backgrounds
+ * - DOCX documents (via {@link https://github.com/md2docx/mdast2docx mdast2docx})
  */
 export const svgToDataUrlBrowser = async (
   svg: string,
   opts?: Options,
-): Promise<string> => {
-  const blob = await svgToBlob(svg, opts);
-  return await blobToDataURLBrowser(blob);
+): Promise<SvgConversionResult> => {
+  const res = await svgToBlob(svg, opts);
+  if (res.blob) res.dataUrl = await blobToDataURLBrowser(res.blob);
+  return res;
 };
 
 /**
- * Converts an SVG string to a Data URL in Node.js.
- * @param svg SVG content.
- * @param opts Conversion options.
- * @returns A Promise resolving to a base64 Data URL.
+ * Convert SVG → Data URL (Node.js / server).
+ *
+ * Encodes SVG or rasterized buffer as `data:image/...;base64,...`.
+ * Supports server-side usage: SSR, APIs, CLI tools, or {@link https://github.com/md2docx/mdast2docx mdast2docx} pipelines.
  */
 export const svgToDataUrlNode = async (
   svg: string,
   opts?: Options,
-): Promise<string> => {
+): Promise<SvgConversionResult> => {
   const options = parseOptions(opts);
-  const buffer = await svgToBuffer(svg, options);
-  return `data:image/${options?.format ?? "svg"};base64,${buffer.toString("base64")}`;
+  const res = await svgToBuffer(svg, options);
+  if (res.buffer) {
+    res.dataUrl = `data:image/${
+      !options?.format || options.format === "svg" ? "svg+xml" : options?.format
+    };base64,${res.buffer.toString("base64")}`;
+  }
+  return res;
 };
 
 /**
- * Converts an SVG string to a Data URL in either environment.
- * Detects server vs browser automatically.
- * @param svg SVG content.
- * @param opts Conversion options.
- * @returns A Promise resolving to a base64 Data URL.
+ * Convert SVG → Data URL (Universal).
+ *
+ * Auto-detects runtime (Browser vs Node.js).
  */
 export const svgToDataUrl = async (
   svg: string,
   opts?: Options,
-): Promise<string> => {
-  const isServer =
-    typeof window === "undefined" || typeof document === "undefined";
-  return isServer
+): Promise<SvgConversionResult> => {
+  return isNode()
     ? svgToDataUrlNode(svg, opts)
     : svgToDataUrlBrowser(svg, opts);
 };

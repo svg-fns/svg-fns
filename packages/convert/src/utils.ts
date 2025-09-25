@@ -61,3 +61,42 @@ export const parseOptions = (
     options.quality > 1 ? options.quality / 100 : options.quality;
   return options;
 };
+
+/**
+ * Resolve final width and height for SVG/image conversion.
+ *
+ * - If both options.width and options.height are defined → use them.
+ * - If both are missing → fallback to image dimensions.
+ * - If only one is defined → calculate the other to preserve aspect ratio.
+ *
+ * @param options - Conversion options { width?, height? }.
+ * @param imgDims - Intrinsic image dimensions { width, height }.
+ * @returns Resolved { width, height } after applying scale.
+ */
+export const resolveDimensions = (
+  options: { width?: number; height?: number },
+  imgDims: { width: number; height: number },
+) => {
+  const { width, height } = options;
+  const { width: imgW, height: imgH } = imgDims;
+
+  const aspectRatio = imgW / imgH;
+  let finalWidth: number;
+  let finalHeight: number;
+
+  if (width && height) {
+    finalWidth = width;
+    finalHeight = height;
+  } else if (width) {
+    finalWidth = width;
+    finalHeight = width / aspectRatio;
+  } else if (height) {
+    finalWidth = height * aspectRatio;
+    finalHeight = height;
+  } else {
+    finalWidth = imgW;
+    finalHeight = imgH;
+  }
+
+  return { width: Math.round(finalWidth), height: Math.round(finalHeight) };
+};
