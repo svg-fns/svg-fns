@@ -1,10 +1,10 @@
-import { isNode } from "@svg-fns/utils";
 import {
   blobToDataURLBrowser,
   canvasToBlob,
-  parseOptions,
+  isNode,
   resolveDimensions,
-} from "./utils";
+} from "@svg-fns/utils";
+import { parseOptions } from "./utils";
 
 /**
  * Supported output formats for SVG → image conversion.
