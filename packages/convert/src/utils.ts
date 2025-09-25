@@ -1,5 +1,10 @@
 import type { Fit, Format, Options, SvgConversionOptions } from "./convert";
 
+/**
+ * Convert a browser `Blob` into a base64 data URL.
+ * @param blob - The Blob to convert
+ * @returns A promise resolving to a data URL string
+ */
 export const blobToDataURLBrowser = (blob: Blob): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -8,6 +13,15 @@ export const blobToDataURLBrowser = (blob: Blob): Promise<string> =>
     reader.readAsDataURL(blob);
   });
 
+/**
+ * Convert a canvas to a Blob (supports OffscreenCanvas and HTMLCanvasElement).
+ *
+ * @param isOffscreenCanvas - True if canvas is OffscreenCanvas
+ * @param canvas - Canvas instance
+ * @param mimeType - MIME type (e.g. "image/png")
+ * @param quality - 0–1 quality for lossy formats
+ * @returns A Promise resolving to a Blob
+ */
 export const canvasToBlob = (
   isOffscreenCanvas: boolean,
   canvas: OffscreenCanvas | HTMLCanvasElement,
@@ -33,6 +47,7 @@ export const canvasToBlob = (
   }
 };
 
+/** Default SVG conversion options */
 export const DEFAULT_OPTIONS = {
   format: "svg" as Format,
   quality: 0.92,
@@ -40,38 +55,41 @@ export const DEFAULT_OPTIONS = {
   fit: "cover" as Fit,
 };
 
+/**
+ * Normalize conversion options to a full object.
+ *
+ * Supports shorthand:
+ * - String → format or fit
+ * - Number → quality
+ */
 export const parseOptions = (
   opts?: Options,
 ): typeof DEFAULT_OPTIONS & SvgConversionOptions => {
-  if (typeof opts === "string" && /png|jpeg|webp|avif|svg/.test(opts)) {
-    opts = {
-      format: opts as Format,
-    };
+  if (typeof opts === "string" && /png|jpeg|jpg|webp|avif|svg/.test(opts)) {
+    opts = { format: opts as Format };
   } else if (typeof opts === "string") {
-    opts = {
-      fit: opts as Fit,
-    };
+    opts = { fit: opts as Fit };
   } else if (typeof opts === "number") {
-    opts = {
-      quality: opts,
-    };
+    opts = { quality: opts };
   }
+
   const options = { ...DEFAULT_OPTIONS, ...opts };
   options.quality =
     options.quality > 1 ? options.quality / 100 : options.quality;
+
   return options;
 };
 
 /**
  * Resolve final width and height for SVG/image conversion.
  *
- * - If both options.width and options.height are defined → use them.
- * - If both are missing → fallback to image dimensions.
- * - If only one is defined → calculate the other to preserve aspect ratio.
+ * - If both width and height are provided → use them
+ * - If both missing → fallback to intrinsic dimensions
+ * - If only one is defined → compute the other to preserve aspect ratio
  *
- * @param options - Conversion options { width?, height? }.
- * @param imgDims - Intrinsic image dimensions { width, height }.
- * @returns Resolved { width, height } after applying scale.
+ * @param options - Conversion options { width?, height? }
+ * @param imgDims - Intrinsic dimensions { width, height }
+ * @returns Object with { width, height } rounded
  */
 export const resolveDimensions = (
   options: { width?: number; height?: number },
