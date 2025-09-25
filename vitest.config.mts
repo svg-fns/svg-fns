@@ -19,6 +19,7 @@ export default defineConfig({
       include: ["packages/**/src/**"],
       exclude: [
         "packages/**/src/**/index.ts",
+        "packages/**/src/**/node.ts",
         "packages/**/src/**/*.test.*",
         "packages/**/src/**/declaration.d.ts",
       ],
