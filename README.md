@@ -7,6 +7,8 @@
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/svg-fns)
 [![NPM License](https://img.shields.io/npm/l/svg-fns)](./LICENSE)
 
+![SVG Functions](./logo.jpg)
+
 **Lightweight, tree-shakable utilities for working with SVGs.**
 Inspired by [`date-fns`](https://date-fns.org/) — small, focused, modular functions.
 
