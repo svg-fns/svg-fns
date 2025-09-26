@@ -26,14 +26,14 @@ const ensureDomServer = async () => {
 };
 
 /**
- * Parse an SVG string into an SVGElement (Node.js, async).
+ * Parse an SVG string into an SVGSVGElement (Node.js, async).
  *
  * @throws Error if the root element is not <svg>.
  */
 export const parseSvgServer = async (
   svgString: string,
   config: IOConfig = {},
-): Promise<SVGElement> => {
+): Promise<SVGSVGElement> => {
   await ensureDomServer();
   // biome-ignore lint/style/noNonNullAssertion: error thrown on previous step
   const Parser = config.domParser ?? DOMParserImpl!;
@@ -46,14 +46,14 @@ export const parseSvgServer = async (
   ) {
     throw new Error("Invalid SVG: root element is not <svg>");
   }
-  return svg as unknown as SVGElement;
+  return svg as unknown as SVGSVGElement;
 };
 
 /**
- * Serialize an SVGElement back to string (Node.js, async).
+ * Serialize an SVGSVGElement back to string (Node.js, async).
  */
 export const serializeSvgServer = async (
-  element: SVGElement,
+  element: SVGSVGElement,
   config: IOConfig = {},
 ): Promise<string> => {
   await ensureDomServer();
@@ -69,7 +69,7 @@ export const serializeSvgServer = async (
 export const parseSvg = (
   svgString: string,
   config: IOConfig = {},
-): SVGElement | Promise<SVGElement> => {
+): SVGSVGElement | Promise<SVGSVGElement> => {
   if (typeof window !== "undefined" && "DOMParser" in window) {
     return parseSvgClient(svgString, config);
   }
@@ -80,7 +80,7 @@ export const parseSvg = (
  * Universal serializer: auto-chooses browser or Node implementation.
  */
 export const serializeSvg = (
-  element: SVGElement,
+  element: SVGSVGElement,
   config: IOConfig = {},
 ): string | Promise<string> => {
   if (typeof window !== "undefined" && "XMLSerializer" in window) {
@@ -102,7 +102,7 @@ export const serializeSvg = (
 export const loadSvg = async (
   input: string | File | Blob | URL,
   config: IOConfig = {},
-): Promise<SVGElement> => {
+): Promise<SVGSVGElement> => {
   // string path or raw SVG
   if (typeof input === "string") {
     if (input.trim().startsWith("<svg")) {
@@ -121,17 +121,17 @@ export const loadSvg = async (
       throw new Error(`Failed to load SVG: ${res.status} ${res.statusText}`);
     }
     const text = await res.text();
-    return (await parseSvgClient(text, config)) as SVGElement;
+    return (await parseSvgClient(text, config)) as SVGSVGElement;
   }
 
   if (typeof File !== "undefined" && input instanceof File) {
     const text = await input.text();
-    return (await parseSvgClient(text, config)) as SVGElement;
+    return (await parseSvgClient(text, config)) as SVGSVGElement;
   }
 
   if (typeof Blob !== "undefined" && input instanceof Blob) {
     const text = await input.text();
-    return (await parseSvgClient(text, config)) as SVGElement;
+    return (await parseSvgClient(text, config)) as SVGSVGElement;
   }
 
   throw new Error("Unsupported input type for loadSvg");

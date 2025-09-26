@@ -19,7 +19,7 @@ let DOMParserImpl: typeof DOMParser | undefined;
 let XMLSerializerImpl: typeof XMLSerializer | undefined;
 
 /**
- * Parses an SVG string into an `SVGElement` using an *unsafe* but faster DOM method.
+ * Parses an SVG string into an `SVGSVGElement` using an *unsafe* but faster DOM method.
  *
  * @remarks
  * - Parsing itself does **not** execute scripts or handlers, since the element
@@ -69,11 +69,11 @@ export const unsafeParseSvg = (
     });
   }
 
-  return svg as SVGElement;
+  return svg as SVGSVGElement;
 };
 
 /**
- * Parse an SVG string into an SVGElement (client side).
+ * Parse an SVG string into an SVGSVGElement (client side).
  *
  * @remarks
  * - Safe mode (default): uses DOMParser.
@@ -85,7 +85,7 @@ export const unsafeParseSvg = (
 export const parseSvg = (
   svgString: string,
   config: IOConfig = {},
-): SVGElement => {
+): SVGSVGElement => {
   const { domParser, unsafe = false, strict = true } = config;
 
   if (unsafe) {
@@ -99,11 +99,11 @@ export const parseSvg = (
   if (strict && (!svg || svg.nodeName.toUpperCase() !== "SVG")) {
     throw new Error("Invalid SVG: root element is not <svg>");
   }
-  return svg as unknown as SVGElement;
+  return svg as unknown as SVGSVGElement;
 };
 
 /**
- * Serialize an SVGElement back to string (browser, sync).
+ * Serialize an SVGSVGElement back to string (browser, sync).
  *
  * @remarks
  * Uses XMLSerializer instead of element.outerHTML to ensure
@@ -111,7 +111,7 @@ export const parseSvg = (
  * outerHTML is simpler but may drop namespaces or produce inconsistent markup.
  */
 export const serializeSvg = (
-  element: SVGElement,
+  element: SVGSVGElement,
   config: IOConfig = {},
 ): string => {
   const Serializer =
