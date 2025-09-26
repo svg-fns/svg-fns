@@ -1,5 +1,11 @@
 # @svg-fns/io
 
+## 1.0.1
+
+### Patch Changes
+
+- 505c01f: Fixed type exports — now exporting `SVGSVGElement` instead of the generic `SVGElement` for better correctness in DOM typings.
+
 ## 1.0.0
 
 ### Major Changes

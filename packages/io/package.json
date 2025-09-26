@@ -2,7 +2,7 @@
   "name": "@svg-fns/io",
   "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple and fast utilities to parse, serialize, and load SVG strings and elements. Optimized for both browser and Node.js environments.",
   "license": "MPL-2.0",
   "main": "./dist/index.js",
