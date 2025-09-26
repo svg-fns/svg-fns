@@ -10,7 +10,7 @@ import { parseOptions } from "./utils";
  * Convert SVG → Blob in the browser.
  *
  * @param svg - The SVG markup string.
- * @param opts - Conversion options (format, width, height, fit, etc.).
+ * @param opts - Conversion options {@link Options}.
  * @returns A promise resolving to {@link SvgConversionResult}. If format is `"svg"`, use `@svg-fns/info`, or `@svg-fns/geometry` to get SVG dimensions or to transform
  *
  * Notes:
@@ -122,6 +122,10 @@ export const svgToBlob = async (
 /**
  * Convert SVG → Data URL (Browser).
  *
+ * @param svg - The SVG markup string.
+ * @param opts - Conversion options {@link Options}.
+ * @returns A promise resolving to {@link SvgConversionResult}. If format is `"svg"`, use `@svg-fns/info`, or `@svg-fns/geometry` to get SVG dimensions or to transform
+ *
  * Encodes output as `data:image/...;base64,...` for direct embedding in:
  * - `<img>` tags
  * - CSS backgrounds
@@ -133,5 +137,44 @@ export const svgToDataUrl = async (
 ): Promise<SvgConversionResult> => {
   const res = await svgToBlob(svg, opts);
   if (res.blob) res.dataUrl = await blobToDataURLBrowser(res.blob);
+  return res;
+};
+
+/**
+ * Convert SVG → File Download (Browser).
+ *
+ *
+ * @param svg - The SVG markup string.
+ * @param filename - The output filename. Defaults to `"image"`.
+ * @param opts - Conversion options {@link Options}.
+ * @returns A promise resolving to {@link SvgConversionResult}. If format is `"svg"`, use `@svg-fns/info`, or `@svg-fns/geometry` to get SVG dimensions or to transform
+ *
+ * Downloads the SVG or rasterized image to the user's device.
+ */
+export const downloadSvg = async (
+  svg: string | SVGSVGElement,
+  filename?: string,
+  opts?: Options,
+): Promise<SvgConversionResult> => {
+  const svgStr = typeof svg === "string" ? svg : svg.outerHTML;
+  const res = await svgToBlob(svgStr, opts);
+
+  if (!res.blob) {
+    throw new Error("Failed to convert SVG to Blob");
+  }
+
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(res.blob);
+  a.download = filename?.includes(".")
+    ? filename
+    : `${filename ?? "image"}.${res.format}`;
+
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  // Delay revoke to ensure browser processes click
+  setTimeout(() => URL.revokeObjectURL(a.href), 0);
+
   return res;
 };
