@@ -3,7 +3,12 @@ export default {
   tsconfig: "tsconfig.docs.json",
   name: "SVG Fns",
   entryPoints: ["./packages/**/src"],
-  exclude: ["**/*.test.*", "**/declaration.d.ts", "./packages/shared/**"],
+  exclude: [
+    "**/*.test.*",
+    "**/declaration.d.ts",
+    "./packages/shared/**",
+    "./packages/convert/**",
+  ],
   entryPointStrategy: "Expand",
   out: "./docs",
   commentStyle: "all",
