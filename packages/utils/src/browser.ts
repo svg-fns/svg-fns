@@ -1,3 +1,5 @@
+import type { Padding, Rect } from "@svg-fns/types";
+
 /**
  * Convert a browser `Blob` into a base64 data URL.
  * @param blob - The Blob to convert
@@ -43,4 +45,54 @@ export const canvasToBlob = (
       );
     });
   }
+};
+
+/**
+ * Normalize padding input into full edge object.
+ *
+ * @param p Padding shorthand (number or object)
+ * @returns Padding object with top/right/bottom/left
+ */
+export const toPadding = (
+  p: Padding = 0,
+): { top: number; right: number; bottom: number; left: number } =>
+  typeof p === "number" ? { top: p, right: p, bottom: p, left: p } : p;
+
+/**
+ * Rounds a number to 3 decimals by default.
+ * - Enabled = true (default)
+ * - Disable only for advanced/extreme cases
+ */
+export const roundIf = (n: number, round = true) =>
+  round ? Math.round(n * 1000) / 1000 : n;
+
+/**
+ * Check if rect has finite coords.
+ */
+export const isValidRect = ({ x, y, width, height }: Rect | DOMRect) =>
+  [x, y, width, height].every(Number.isFinite);
+
+/**
+ * Get right edge of a rect.
+ */
+export const rectRight = (r: Rect) => r.x + r.width;
+
+/**
+ * Get bottom edge of a rect.
+ */
+export const rectBottom = (r: Rect) => r.y + r.height;
+
+/**
+ * Compute union of two rects.
+ *
+ * @param a First rect
+ * @param b Second rect
+ * @returns Bounding rect covering both
+ */
+export const unionRects = (a: Rect, b: Rect): Rect => {
+  const x = Math.min(a.x, b.x);
+  const y = Math.min(a.y, b.y);
+  const right = Math.max(rectRight(a), rectRight(b));
+  const bottom = Math.max(rectBottom(a), rectBottom(b));
+  return { x, y, width: right - x, height: bottom - y };
 };

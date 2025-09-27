@@ -34,13 +34,17 @@ globalThis.Image = class {
   }
 } as unknown as typeof Image;
 
-// @ts-expect-error Mock getBBox (required for SVG operations)
-SVGElement.prototype.getBBox = () => ({
+const getBBox = () => ({
   x: 0,
   y: 0,
   width: 100,
   height: 100,
 });
+
+// @ts-expect-error Mock getBBox (required for SVG operations)
+SVGElement.prototype.getBBox = getBBox;
+
+// SVGGraphicsElement.prototype.getBBox = getBBox;
 
 (SVGElement.prototype as any).getComputedTextLength = () => 100; // or any fixed number
 
