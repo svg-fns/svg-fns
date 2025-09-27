@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
-  almostEqual,
+  almostEqualPoints,
   distance,
   midpoint,
   rotatePoint,
@@ -22,15 +22,19 @@ describe("geometry", () => {
   });
 
   it("rotates point around origin", () => {
-    const p = rotatePoint({ x: 1, y: 0 }, Math.PI / 2);
+    const p = rotatePoint({ x: 1, y: 0 }, 90);
     expect(p.x).toBeCloseTo(0);
     expect(p.y).toBeCloseTo(1);
   });
 
   it("checks almostEqual", () => {
-    expect(almostEqual({ x: 1, y: 1 }, { x: 1.00000001, y: 1.00000001 })).toBe(
-      true,
-    );
-    expect(almostEqual({ x: 1, y: 1 }, { x: 1.1, y: 1.1 })).toBe(false);
+    expect(
+      almostEqualPoints(
+        { x: 1, y: 1 },
+        { x: 1.00000001, y: 1.00000001 },
+        0.00000001,
+      ),
+    ).toBe(true);
+    expect(almostEqualPoints({ x: 1, y: 1 }, { x: 1.1, y: 1.1 })).toBe(false);
   });
 });
