@@ -9,23 +9,40 @@ export type Padding =
   | number
   | { top: number; right: number; bottom: number; left: number };
 
-export type Matrix = {
-  a: number;
-  b: number;
-  c: number;
-  d: number;
-  e: number;
-  f: number;
-};
+/**
+ * Affine transform matrix tuple.
+ * Matches SVGMatrix [a b c d e f].
+ */
+export type Matrix = [number, number, number, number, number, number];
 
+/**
+ * Normalize padding input into full edge object.
+ *
+ * @param p Padding shorthand (number or object)
+ * @returns Padding object with top/right/bottom/left
+ */
 const toPadding = (
   p: Padding = 0,
 ): { top: number; right: number; bottom: number; left: number } =>
   typeof p === "number" ? { top: p, right: p, bottom: p, left: p } : p;
 
+/**
+ * Get right edge of a rect.
+ */
 const rectRight = (r: Rect) => r.x + r.width;
+
+/**
+ * Get bottom edge of a rect.
+ */
 const rectBottom = (r: Rect) => r.y + r.height;
 
+/**
+ * Compute union of two rects.
+ *
+ * @param a First rect
+ * @param b Second rect
+ * @returns Bounding rect covering both
+ */
 const unionRects = (a: Rect, b: Rect): Rect => {
   const x = Math.min(a.x, b.x);
   const y = Math.min(a.y, b.y);
@@ -34,13 +51,22 @@ const unionRects = (a: Rect, b: Rect): Rect => {
   return { x, y, width: right - x, height: bottom - y };
 };
 
+/**
+ * Rounds a number to 3 decimals by default.
+ * - Enabled = true (default)
+ * - Disable only for advanced/extreme cases
+ */
 const roundIf = (n: number, round = true) =>
   round ? Math.round(n * 1000) / 1000 : n;
 
 // --- ViewBox helpers ---
 
 /**
- * Parse a viewBox string into a Rect, or null if missing/invalid.
+ * Parse a `viewBox` string into a rect.
+ *
+ * @param vb viewBox attribute string
+ * @returns Rect or null if invalid
+ * @link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/viewBox
  */
 export const parseViewBox = (vb: string | null): Rect | null => {
   if (!vb) return null;
@@ -48,55 +74,77 @@ export const parseViewBox = (vb: string | null): Rect | null => {
     .trim()
     .split(/[\s,]+/)
     .map(Number)
-    .filter((n) => !Number.isNaN(n));
+    .filter(Number.isFinite);
   if (parts.length < 4) return null;
   const [x, y, width, height] = parts;
   return { x, y, width, height };
 };
 
 /**
- * Read the current viewBox on an SVG element. Returns null if none is set.
+ * Read current viewBox of an SVG.
+ *
+ * @param svg SVG element
+ * @returns Rect or null
  */
 export const getViewBox = (svg: SVGSVGElement): Rect | null =>
   parseViewBox(svg.getAttribute("viewBox"));
 
 /**
- * Force-set the viewBox on the SVG element.
- * Mutates the element.
+ * Set SVG viewBox (and optionally preserveAspectRatio).
+ *
+ * @param svg SVG element
+ * @param rect Rect to set
+ * @param opts Options (round, preserveAspectRatio)
  */
 export const setViewBox = (
   svg: SVGSVGElement,
-  rect: Rect,
+  { x, y, height, width }: Rect,
   opts?: { preserveAspectRatio?: string; round?: boolean },
 ): void => {
-  const round = opts?.round ?? true;
   svg.setAttribute(
     "viewBox",
-    `${roundIf(rect.x, round)} ${roundIf(rect.y, round)} ${roundIf(rect.width, round)} ${roundIf(rect.height, round)}`,
+    [x, y, width, height]
+      .map((dimension) => roundIf(dimension, opts?.round))
+      .join(" "),
   );
   if (opts?.preserveAspectRatio)
     svg.setAttribute("preserveAspectRatio", opts.preserveAspectRatio);
 };
 
-const parseDimension = (v: string | null) => {
+/**
+ * Parse dimension string (px, em, rem, vw, vh, etc).
+ * Returns numeric value in pixels where possible, else null.
+ *
+ * @param v Attribute string
+ * @returns number or null
+ * @link https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units
+ */
+const parseDimension = (v: string | null): number | null => {
   if (!v || v.endsWith("%")) return null;
-  const n = parseFloat(v.replace(/px$/, ""));
+  const n = parseFloat(v);
   return Number.isFinite(n) ? n : null;
 };
+
 /**
- * Read width/height attributes (as numbers) if present. Returns null for missing/percentage values.
+ * Read width/height attributes.
+ *
+ * @param svg SVG element
+ * @returns { width, height } or nulls
  */
 export const getDimensions = (
   svg: SVGSVGElement,
 ): { width: number | null; height: number | null } => {
   const w = svg.getAttribute("width");
   const h = svg.getAttribute("height");
-
   return { width: parseDimension(w), height: parseDimension(h) };
 };
 
 /**
- * Update width/height attributes. If a value is null/undefined it's left unchanged.
+ * Update width/height attributes.
+ *
+ * @param svg SVG element
+ * @param width New width (optional)
+ * @param height New height (optional)
  */
 export const updateDimensions = (
   svg: SVGSVGElement,
@@ -109,6 +157,9 @@ export const updateDimensions = (
     svg.setAttribute("height", String(height));
 };
 
+/**
+ * Check if rect has finite coords.
+ */
 export const isValidRect = ({ x, y, width, height }: Rect | DOMRect) =>
   [x, y, width, height].every(Number.isFinite);
 
@@ -145,7 +196,7 @@ export const getContentBBox = (
           bbox = unionRects(bbox, elBBox);
         }
       } catch {
-        // Ignore elements that throw
+        // ignore
       }
     }
   }
@@ -154,8 +205,11 @@ export const getContentBBox = (
 };
 
 /**
- * Compute the tight cropping rectangle (in SVG user coordinates) around visible content, plus optional padding.
- * Does not mutate the SVG.
+ * Compute trim box (tight content box + padding).
+ *
+ * @param svg SVG element
+ * @param padding Padding
+ * @returns @link {Rect}
  */
 export const computeTrimBox = (
   svg: SVGSVGElement,
@@ -172,9 +226,11 @@ export const computeTrimBox = (
 };
 
 /**
- * Tightly crop ("trim") an SVG's viewBox to its content.
- * - By default mutates the provided SVG.
- * - Returns the computed box and an apply() helper if you prefer manual apply.
+ * Tightly crop an SVG to content.
+ *
+ * @param svg SVG element
+ * @param opts Options (padding, mutate, preserveDimensions, round)
+ * @returns { box, apply } where apply() applies crop
  */
 export const tightlyCropSvg = (
   svg: SVGSVGElement,
@@ -201,7 +257,12 @@ export const tightlyCropSvg = (
 // --- Pan & Zoom (viewBox-based) ---
 
 /**
- * Translate the current viewBox by dx,dy (user coordinate units). Mutates by default.
+ * Translate current viewBox.
+ *
+ * @param svg SVG element
+ * @param dx Delta x
+ * @param dy Delta y
+ * @param opts Options (mutate, round)
  */
 export const translateViewBox = (
   svg: SVGSVGElement,
@@ -222,9 +283,13 @@ export const translateViewBox = (
 };
 
 /**
- * Scale (zoom) the viewBox by `factor` around an optional center (cx,cy) in user coordinates.
- * - factor > 1 => zoom in (smaller viewBox w/h)
- * - factor < 1 => zoom out
+ * Scale (zoom) current viewBox.
+ *
+ * @param svg SVG element
+ * @param factor Zoom factor (>0)
+ * @param cx Optional center x
+ * @param cy Optional center y
+ * @param opts Options (mutate, round)
  */
 export const scaleViewBox = (
   svg: SVGSVGElement,
@@ -239,25 +304,29 @@ export const scaleViewBox = (
   if (!vb) return null;
   const centerX = (Number.isFinite(cx) ? cx : vb.x + vb.width / 2) as number;
   const centerY = (Number.isFinite(cy) ? cy : vb.y + vb.height / 2) as number;
-
   const newW = vb.width / factor;
   const newH = vb.height / factor;
   const newX = centerX - (centerX - vb.x) / factor;
   const newY = centerY - (centerY - vb.y) / factor;
   const newRect: Rect = { x: newX, y: newY, width: newW, height: newH };
-
   if (opts?.mutate ?? true) setViewBox(svg, newRect, { round: opts?.round });
   return newRect;
 };
 
+/**
+ * Apply affine matrix to a point.
+ */
 const applyMatrixToPoint = (m: Matrix, p: Point): Point => ({
-  x: m.a * p.x + m.c * p.y + m.e,
-  y: m.b * p.x + m.d * p.y + m.f,
+  x: m[0] * p.x + m[2] * p.y + m[4],
+  y: m[1] * p.x + m[3] * p.y + m[5],
 });
 
 /**
- * Apply an affine matrix to the viewBox. The viewBox will be set to the bounding box of the
- * transformed original viewBox corners. This can produce skew/shear.
+ * Apply matrix transform to viewBox.
+ *
+ * @param svg SVG element
+ * @param matrix Affine matrix
+ * @param opts Options (mutate, round)
  */
 export const setViewBoxTransform = (
   svg: SVGSVGElement,
@@ -287,7 +356,10 @@ export const setViewBoxTransform = (
 // --- Convenience helpers ---
 
 /**
- * Align content to center by adjusting viewBox (keeps width/height, recenters the viewBox around content center)
+ * Center viewBox around content center.
+ *
+ * @param svg SVG element
+ * @param opts Options (mutate, round)
  */
 export const centerSvg = (
   svg: SVGSVGElement,
@@ -310,8 +382,12 @@ export const centerSvg = (
 };
 
 /**
- * Fit SVG content into the given width/height (in SVG user coords) while preserving aspect ratio.
- * Mutates by default.
+ * Fit content into target rect (preserve aspect ratio).
+ *
+ * @param svg SVG element
+ * @param targetW Target width
+ * @param targetH Target height
+ * @param opts Options (mutate, padding, round)
  */
 export const fitSvg = (
   svg: SVGSVGElement,
@@ -337,20 +413,4 @@ export const fitSvg = (
   };
   if (opts?.mutate ?? true) setViewBox(svg, newRect, { round: opts?.round });
   return newRect;
-};
-
-export default {
-  parseViewBox,
-  getViewBox,
-  setViewBox,
-  getWidthHeight: getDimensions,
-  updateDimensions,
-  getContentBBox,
-  computeTrimBox,
-  tightlyCropSvg,
-  translateViewBox,
-  scaleViewBox,
-  setViewBoxTransform,
-  centerSvg,
-  fitSvg,
 };
