@@ -1,8 +1,7 @@
 import { isValidColor } from "@svg-fns/utils";
 
 /**
- * @packageDocumentation
- * @module @svg-fns/info
+ * @module @svg-fns/info/client
  *
  * High-performance, tree-shakeable utilities to extract structured **information** from SVG elements.
  * Works in both **browser** and **Node.js** (with a DOM shim like JSDOM).
