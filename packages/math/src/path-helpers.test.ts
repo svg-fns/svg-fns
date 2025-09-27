@@ -15,7 +15,13 @@ describe("path-helpers", () => {
   });
 
   it("creates arc path", () => {
-    const d = arcPath(0, 0, 50, 0, 90);
+    const d = arcPath(0, 0, 50, 0, -90);
+    expect(d).toContain("M");
+    expect(d).toContain("A");
+  });
+
+  it("creates arc path", () => {
+    const d = arcPath(0, 0, 50, 0, 90, 0);
     expect(d).toContain("M");
     expect(d).toContain("A");
   });

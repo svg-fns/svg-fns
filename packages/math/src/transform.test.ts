@@ -3,63 +3,97 @@ import {
   applyMatrixToPoint,
   composeMatrices,
   decomposeMatrix,
-  identityMatrix,
   parseTransform,
   rotationMatrix,
   scaleMatrix,
-  translationMatrix,
+  skewXMatrix,
+  skewYMatrix,
+  transformPoint,
 } from "./transform";
 
 describe("@svg-fns/math transforms", () => {
-  it("identityMatrix should leave point unchanged", () => {
-    const p = { x: 5, y: 10 };
-    const res = applyMatrixToPoint(p, identityMatrix());
+  it("rotationMatrix 0 degrees should leave point unchanged", () => {
+    const p = { x: 3, y: 4 };
+    const res = applyMatrixToPoint(p, rotationMatrix(0));
     expect(res).toEqual(p);
   });
 
-  it("translationMatrix should translate point", () => {
-    const p = { x: 0, y: 0 };
-    const res = applyMatrixToPoint(p, translationMatrix(10, 20));
-    expect(res).toEqual({ x: 10, y: 20 });
+  it("skewXMatrix should skew point along X", () => {
+    const p = { x: 1, y: 1 };
+    const res = applyMatrixToPoint(p, skewXMatrix(45));
+    expect(res.x).toBeCloseTo(2, 6); // x + y*tan(45°) = 1 + 1*1 = 2
+    expect(res.y).toBeCloseTo(1, 6);
   });
 
-  it("scaleMatrix should scale point", () => {
-    const p = { x: 2, y: 3 };
-    const res = applyMatrixToPoint(p, scaleMatrix(2, 3));
-    expect(res).toEqual({ x: 4, y: 9 });
+  it("skewYMatrix should skew point along Y", () => {
+    const p = { x: 1, y: 1 };
+    const res = applyMatrixToPoint(p, skewYMatrix(45));
+    expect(res.x).toBeCloseTo(1, 6);
+    expect(res.y).toBeCloseTo(2, 6);
   });
 
-  it("rotationMatrix 90 degrees should rotate point (1,0) to (0,1)", () => {
-    const p = { x: 1, y: 0 };
-    const res = applyMatrixToPoint(p, rotationMatrix(90));
+  it("composeMatrices with no arguments returns identity", () => {
+    const m = composeMatrices();
+    const p = { x: 1, y: 1 };
+    const res = applyMatrixToPoint(p, m);
+    expect(res).toEqual(p);
+  });
+
+  it("parseTransform handles empty string as identity", () => {
+    const m = parseTransform("");
+    const p = { x: 5, y: 5 };
+    expect(applyMatrixToPoint(p, m)).toEqual(p);
+  });
+
+  it("parseTransform skips invalid numbers gracefully", () => {
+    const m = parseTransform("translate(foo,10) rotate(90)");
+    const res = applyMatrixToPoint({ x: 1, y: 0 }, m);
     expect(Math.round(res.x)).toBe(0);
     expect(Math.round(res.y)).toBe(1);
   });
 
-  it("composeMatrices should apply transforms in SVG order (right-to-left on points)", () => {
-    const p = { x: 1, y: 1 };
-    // scale then translate (point is scaled first, then moved)
-    const m = composeMatrices(scaleMatrix(2), translationMatrix(5, 0));
+  it("parseTransform handles rotate with pivot correctly", () => {
+    const m = parseTransform("rotate(90,1,1)");
+    const p = { x: 2, y: 1 };
     const res = applyMatrixToPoint(p, m);
-    expect(res).toEqual({ x: 12, y: 2 });
+    // rotation around (1,1) -> (2,1) rotates to (1,2)
+    expect(res.x).toBeCloseTo(1, 6);
+    expect(res.y).toBeCloseTo(2, 6);
   });
 
-  it("parseTransform should parse simple translate", () => {
-    const m = parseTransform("translate(10,20)");
-    const res = applyMatrixToPoint({ x: 0, y: 0 }, m);
-    expect(res).toEqual({ x: 10, y: 20 });
+  it("applies skewX correctly", () => {
+    const m = parseTransform("skewX(45)");
+    const p = { x: 1, y: 1 };
+    const res = applyMatrixToPoint(p, m);
+    expect(res.x).toBeCloseTo(2); // x + tan(45°)*y = 1 + 1*1
+    expect(res.y).toBeCloseTo(1);
   });
 
-  it("decomposeMatrix should return expected components", () => {
-    const m = composeMatrices(
-      translationMatrix(10, 20),
-      rotationMatrix(45),
-      scaleMatrix(2, 3),
-    );
+  it("applies skewY correctly", () => {
+    const m = parseTransform("skewY(45)");
+    const p = { x: 1, y: 1 };
+    const res = applyMatrixToPoint(p, m);
+    expect(res.x).toBeCloseTo(1);
+    expect(res.y).toBeCloseTo(2); // y + tan(45°)*x = 1 + 1*1
+  });
+
+  it("transformPoint integrates parseTransform + applyMatrixToPoint", () => {
+    const p = { x: 1, y: 1 };
+    const res = transformPoint(p, "translate(2,3) scale(2)");
+    // scale first: (1*2,1*2) = (2,2), then translate (2+2,2+3) = (4,5)
+    expect(res).toEqual({ x: 4, y: 5 });
+  });
+
+  it("decomposeMatrix handles negative scale/rotation edge case", () => {
+    const m = composeMatrices(scaleMatrix(-2, -3), rotationMatrix(180));
     const dec = decomposeMatrix(m);
-    expect(dec.translate.x).toBeCloseTo(10, 6);
-    expect(dec.translate.y).toBeCloseTo(20, 6);
     expect(dec.scale.x).toBeCloseTo(2, 6);
     expect(dec.scale.y).toBeCloseTo(3, 6);
+  });
+
+  it("parseTransform handles matrix() directly", () => {
+    const mStr = "matrix(1,2,3,4,5,6)";
+    const m = parseTransform(mStr);
+    expect(m).toEqual([1, 2, 3, 4, 5, 6]);
   });
 });
