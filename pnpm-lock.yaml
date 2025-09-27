@@ -164,6 +164,9 @@ importers:
       '@svg-fns/io':
         specifier: workspace:^
         version: link:../packages/io
+      '@svg-fns/math':
+        specifier: workspace:^
+        version: link:../packages/math
       '@svg-fns/svg2img':
         specifier: workspace:^
         version: link:../packages/svg2img
