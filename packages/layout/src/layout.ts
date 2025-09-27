@@ -2,62 +2,8 @@
 // TypeScript implementation of low-level SVG layout utilities (viewBox, cropping, pan & zoom)
 // Focus: accuracy, DX, efficiency — non-opinionated building blocks for higher-level ops.
 
-export type Rect = { x: number; y: number; width: number; height: number };
-export type Point = { x: number; y: number };
-
-export type Padding =
-  | number
-  | { top: number; right: number; bottom: number; left: number };
-
-/**
- * Affine transform matrix tuple.
- * Matches SVGMatrix [a b c d e f].
- */
-export type Matrix = [number, number, number, number, number, number];
-
-/**
- * Normalize padding input into full edge object.
- *
- * @param p Padding shorthand (number or object)
- * @returns Padding object with top/right/bottom/left
- */
-const toPadding = (
-  p: Padding = 0,
-): { top: number; right: number; bottom: number; left: number } =>
-  typeof p === "number" ? { top: p, right: p, bottom: p, left: p } : p;
-
-/**
- * Get right edge of a rect.
- */
-const rectRight = (r: Rect) => r.x + r.width;
-
-/**
- * Get bottom edge of a rect.
- */
-const rectBottom = (r: Rect) => r.y + r.height;
-
-/**
- * Compute union of two rects.
- *
- * @param a First rect
- * @param b Second rect
- * @returns Bounding rect covering both
- */
-const unionRects = (a: Rect, b: Rect): Rect => {
-  const x = Math.min(a.x, b.x);
-  const y = Math.min(a.y, b.y);
-  const right = Math.max(rectRight(a), rectRight(b));
-  const bottom = Math.max(rectBottom(a), rectBottom(b));
-  return { x, y, width: right - x, height: bottom - y };
-};
-
-/**
- * Rounds a number to 3 decimals by default.
- * - Enabled = true (default)
- * - Disable only for advanced/extreme cases
- */
-const roundIf = (n: number, round = true) =>
-  round ? Math.round(n * 1000) / 1000 : n;
+import type { Matrix, Padding, Point, Rect } from "@svg-fns/types";
+import { isValidRect, roundIf, toPadding, unionRects } from "@svg-fns/utils";
 
 // --- ViewBox helpers ---
 
@@ -112,17 +58,48 @@ export const setViewBox = (
 };
 
 /**
- * Parse dimension string (px, em, rem, vw, vh, etc).
- * Returns numeric value in pixels where possible, else null.
+ * Parse dimension string into pixels where possible.
+ * - Supports: unitless, px, vh, vw (requires `window`)
+ * - Supports: em, rem (requires optional `fontSize` context)
+ * - Throws on unsupported units or missing context
  *
  * @param v Attribute string
- * @returns number or null
- * @link https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units
+ * @param context Optional: { fontSize?: number } for em/rem
+ * @returns number in px, or null if empty
  */
-const parseDimension = (v: string | null): number | null => {
-  if (!v || v.endsWith("%")) return null;
+export const parseDimension = (
+  v: string | null,
+  context?: { fontSize?: number },
+): number | null => {
+  if (!v) return null;
+
   const n = parseFloat(v);
-  return Number.isFinite(n) ? n : null;
+  if (!Number.isFinite(n)) return null;
+
+  if (/^[0-9.+-]+(?:px)?$/.test(v)) return n;
+
+  if (v.endsWith("vw")) {
+    if (typeof window === "undefined")
+      throw new Error("Cannot resolve vw without window");
+    return (n / 100) * window.innerWidth;
+  }
+
+  if (v.endsWith("vh")) {
+    if (typeof window === "undefined")
+      throw new Error("Cannot resolve vh without window");
+    return (n / 100) * window.innerHeight;
+  }
+
+  if (v.endsWith("em") || v.endsWith("rem")) {
+    const fs =
+      context?.fontSize ??
+      parseFloat(getComputedStyle(document.documentElement).fontSize);
+    if (!Number.isFinite(fs))
+      throw new Error(`Cannot resolve ${v} without font size context`);
+    return n * fs;
+  }
+
+  throw new Error(`Unsupported or unknown unit in dimension: "${v}"`);
 };
 
 /**
@@ -133,10 +110,12 @@ const parseDimension = (v: string | null): number | null => {
  */
 export const getDimensions = (
   svg: SVGSVGElement,
+  context?: { fontSize?: number },
 ): { width: number | null; height: number | null } => {
-  const w = svg.getAttribute("width");
-  const h = svg.getAttribute("height");
-  return { width: parseDimension(w), height: parseDimension(h) };
+  return {
+    width: parseDimension(svg.getAttribute("width"), context),
+    height: parseDimension(svg.getAttribute("height"), context),
+  };
 };
 
 /**
@@ -156,12 +135,6 @@ export const updateDimensions = (
   if (height !== undefined && height !== null)
     svg.setAttribute("height", String(height));
 };
-
-/**
- * Check if rect has finite coords.
- */
-export const isValidRect = ({ x, y, width, height }: Rect | DOMRect) =>
-  [x, y, width, height].every(Number.isFinite);
 
 // --- Content bbox calculation ---
 
