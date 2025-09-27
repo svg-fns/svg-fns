@@ -15,6 +15,7 @@
  * The Matrix type follows the SVG `matrix(a b c d e f)` convention stored as [a, b, c, d, e, f].
  */
 
+import { DEG_TO_RAD, RAD_TO_DEG } from "@svg-fns/utils";
 import type { Matrix, Point } from "./types";
 
 /** Identity matrix: matrix(1 0 0 1 0 0) */
@@ -39,7 +40,7 @@ export const scaleMatrix = (sx = 1, sy = sx): Matrix => [sx, 0, 0, sy, 0, 0];
  * when in screen coordinates with Y down. For typical math (Y up) you'd flip sign.
  */
 export const rotationMatrix = (angleDegrees = 0): Matrix => {
-  const r = (angleDegrees * Math.PI) / 180;
+  const r = DEG_TO_RAD * angleDegrees;
   const cos = Math.cos(r);
   const sin = Math.sin(r);
   return [cos, sin, -sin, cos, 0, 0];
@@ -47,13 +48,13 @@ export const rotationMatrix = (angleDegrees = 0): Matrix => {
 
 /** SkewX by angleDegrees -> matrix(1 tan(a) 0 1 0 0) */
 export const skewXMatrix = (angleDegrees = 0): Matrix => {
-  const a = (angleDegrees * Math.PI) / 180;
+  const a = DEG_TO_RAD * angleDegrees;
   return [1, 0, Math.tan(a), 1, 0, 0];
 };
 
 /** SkewY by angleDegrees -> matrix(1 0 tan(a) 1 0 0) */
 export const skewYMatrix = (angleDegrees = 0): Matrix => {
-  const a = (angleDegrees * Math.PI) / 180;
+  const a = DEG_TO_RAD * angleDegrees;
   return [1, Math.tan(a), 0, 1, 0, 0];
 };
 
@@ -144,9 +145,9 @@ export const decomposeMatrix = (m: Matrix) => {
   const reflect = det < 0 ? -1 : 1;
 
   // rotation (in degrees) from normalized first column
-  const rotate = (Math.atan2(b, a) * 180) / Math.PI;
+  const rotate = Math.atan2(b, a) * RAD_TO_DEG;
 
-  const skewX = (Math.atan(shear) * 180) / Math.PI;
+  const skewX = Math.atan(shear) * RAD_TO_DEG;
 
   return {
     translate,
@@ -179,7 +180,7 @@ export const parseTransform = (input: string): Matrix => {
     const name = parts[1];
     const raw = parts[2].trim();
     // split numbers by comma or spaces
-    const nums = raw
+    const numbers = raw
       .replace(/,/g, " ")
       .split(/\s+/)
       .filter(Boolean)
@@ -187,31 +188,38 @@ export const parseTransform = (input: string): Matrix => {
 
     switch (name) {
       case "matrix":
-        if (nums.length < 6) return identityMatrix();
-        return [nums[0], nums[1], nums[2], nums[3], nums[4], nums[5]] as Matrix;
+        if (numbers.length < 6) return identityMatrix();
+        return [
+          numbers[0],
+          numbers[1],
+          numbers[2],
+          numbers[3],
+          numbers[4],
+          numbers[5],
+        ] as Matrix;
       case "translate": {
-        const tx = nums[0] ?? 0;
-        const ty = nums[1] ?? 0;
+        const tx = numbers[0] ?? 0;
+        const ty = numbers[1] ?? 0;
         return translationMatrix(tx, ty);
       }
       case "translateX":
-        return translationMatrix(nums[0] ?? 0, 0);
+        return translationMatrix(numbers[0] ?? 0, 0);
       case "translateY":
-        return translationMatrix(0, nums[0] ?? 0);
+        return translationMatrix(0, numbers[0] ?? 0);
       case "scale": {
-        const sx = nums[0] ?? 1;
-        const sy = nums[1] ?? sx;
+        const sx = numbers[0] ?? 1;
+        const sy = numbers[1] ?? sx;
         return scaleMatrix(sx, sy);
       }
       case "scaleX":
-        return scaleMatrix(nums[0] ?? 1, 1);
+        return scaleMatrix(numbers[0] ?? 1, 1);
       case "scaleY":
-        return scaleMatrix(1, nums[0] ?? 1);
+        return scaleMatrix(1, numbers[0] ?? 1);
       case "rotate": {
         // rotate(angle [cx cy])
-        const angle = nums[0] ?? 0;
-        const cx = nums[1] ?? 0;
-        const cy = nums[2] ?? 0;
+        const angle = numbers[0] ?? 0;
+        const cx = numbers[1] ?? 0;
+        const cy = numbers[2] ?? 0;
         if (cx !== 0 || cy !== 0) {
           // translate to origin, rotate, translate back
           return composeMatrices(
@@ -223,9 +231,9 @@ export const parseTransform = (input: string): Matrix => {
         return rotationMatrix(angle);
       }
       case "skewX":
-        return skewXMatrix(nums[0] ?? 0);
+        return skewXMatrix(numbers[0] ?? 0);
       case "skewY":
-        return skewYMatrix(nums[0] ?? 0);
+        return skewYMatrix(numbers[0] ?? 0);
       default:
         return identityMatrix();
     }
