@@ -181,9 +181,7 @@ export const parseTransform = (input: string): Matrix => {
   // biome-ignore lint/suspicious/noAssignInExpressions: quick while loop
   while ((match = transformRegex.exec(input)) !== null) {
     const [, name, rawValues] = match;
-    const numbers = (
-      rawValues.match(/[-+]?(\d+(\.\d*)?|\.\d+)(e[-+]?\d+)?/gi) || []
-    ).map(Number);
+    const numbers = rawValues.split(/[\s,]+/).map(Number);
 
     // If parsing numbers results in NaN, skip this transform to avoid corrupting the matrix
     if (numbers.some(Number.isNaN)) {
