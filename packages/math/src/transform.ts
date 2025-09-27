@@ -171,8 +171,9 @@ export const decomposeMatrix = (m: Matrix) => {
  * @param transformString The SVG `transform` attribute string, e.g., "translate(10, 20) rotate(45)".
  * @returns The composed `Matrix`. Returns an identity matrix if the string is empty or invalid.
  */
-export const parseTransform = (input: string): Matrix => {
-  if (!input || !input.trim()) return identityMatrix();
+export const parseTransform = (transformStr?: string | null): Matrix => {
+  const input = transformStr?.trim();
+  if (!input || input.length > 2000) return identityMatrix();
 
   const transformRegex = /(\w+)\s*\(([^)]*)\)/g;
   const matrices: Matrix[] = [];
