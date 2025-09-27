@@ -1,18 +1,20 @@
 {
-  "name": "@svg-fns/{{kebabCase name}}",
+  "name": "@svg-fns/math",
   "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
   "private": false,
   "version": "0.0.0",
-  "description": "",
+  "description": "Core SVG math utilities: 2D affine transforms, geometry helpers, and path helpers for high-quality SVG manipulation.",
   "license": "MPL-2.0",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "repository": "github:svg-fns/svg-fns",
   "bugs": "https://github.com/svg-fns/svg-fns/issues",
-  "homepage": "https://github.com/svg-fns/svg-fns/tree/main/packages/{{kebabCase name}}/#readme",
+  "homepage": "https://github.com/svg-fns/svg-fns/tree/main/packages/math/#readme",
   "sideEffects": false,
-  "files": ["dist/**"],
+  "files": [
+    "dist/**"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -61,10 +63,27 @@
     "typescript": "^5.9.2"
   },
   "funding": [
-    { "type": "github", "url": "https://github.com/sponsors/svg-fns" },
-    { "type": "github", "url": "https:/github.com/sponsors/mayank1513" }
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/svg-fns"
+    },
+    {
+      "type": "github",
+      "url": "https:/github.com/sponsors/mayank1513"
+    }
   ],
   "keywords": [
+    "svg",
+    "math",
+    "geometry",
+    "transforms",
+    "path",
+    "affine",
+    "vector",
+    "graphics",
+    "svg-fns",
+    "2d",
+    "coordinate",
     "Customizable",
     "Cutting-edge",
     "Compatibility",

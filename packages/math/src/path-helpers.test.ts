@@ -1,0 +1,28 @@
+import { describe, expect, it } from "vitest";
+import { arcPath, cartesianToPolar, polarToCartesian } from "./path-helpers";
+
+describe("path-helpers", () => {
+  it("converts polar to cartesian", () => {
+    const p = polarToCartesian(0, 0, 1, 90);
+    expect(p.x).toBeCloseTo(0);
+    expect(p.y).toBeCloseTo(1);
+  });
+
+  it("converts cartesian to polar", () => {
+    const polar = cartesianToPolar(0, 0, { x: 0, y: 1 });
+    expect(polar.r).toBeCloseTo(1);
+    expect(polar.angle).toBeCloseTo(90);
+  });
+
+  it("creates arc path", () => {
+    const d = arcPath(0, 0, 50, 0, -90);
+    expect(d).toContain("M");
+    expect(d).toContain("A");
+  });
+
+  it("creates arc path", () => {
+    const d = arcPath(0, 0, 50, 0, 90, 0);
+    expect(d).toContain("M");
+    expect(d).toContain("A");
+  });
+});

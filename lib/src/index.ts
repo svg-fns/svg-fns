@@ -5,4 +5,5 @@
 
 export * from "@svg-fns/info";
 export * from "@svg-fns/io";
+export * from "@svg-fns/math";
 export * from "@svg-fns/svg2img";
