@@ -15,12 +15,24 @@ import {
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 
-const createSampleSvg = () => {
+const createSampleSvg = (addPath = false) => {
+  const SVG_NS = "http://www.w3.org/2000/svg";
+
   const svg = document.createElementNS(SVG_NS, "svg") as SVGSVGElement;
   svg.setAttribute("viewBox", "0 0 100 100");
   svg.setAttribute("height", "100");
   svg.setAttribute("width", "100");
+
+  if (addPath) {
+    const path = document.createElementNS(SVG_NS, "path");
+    path.setAttribute("d", "M10 80 C 40 10, 65 10, 95 80");
+    path.setAttribute("stroke", "black");
+    path.setAttribute("fill", "transparent");
+
+    svg.appendChild(path);
+  }
   document.body.appendChild(svg);
+
   return svg;
 };
 
@@ -60,6 +72,19 @@ describe("@svg-fns/layout - updated empty SVG with mocked getBBox", () => {
 
     const box = computeTrimBox(svg);
     expect(box).toEqual({ x: 10, y: 20, width: 30, height: 40 });
+  });
+
+  it("computeTrimBox with path should return global mocked getBBox result", () => {
+    const svg = createSampleSvg(true);
+    vi.spyOn(svg, "getBBox").mockReturnValue({
+      x: 10,
+      y: 20,
+      width: 30,
+      height: 40,
+    } as DOMRect);
+
+    const box = computeTrimBox(svg);
+    expect(box).toEqual({ x: 0, y: 0, width: 100, height: 100 });
   });
 
   it("tightlyCropSvg mutates viewBox by default", () => {
