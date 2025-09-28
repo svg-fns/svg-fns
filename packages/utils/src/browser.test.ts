@@ -1,5 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
-import { blobToDataURLBrowser, canvasToBlob } from "./browser";
+import {
+  blobToDataURLBrowser,
+  canvasToBlob,
+  isValidRect,
+  unionRects,
+} from "./browser";
 
 describe("utils", () => {
   describe("blobToDataURLBrowser", () => {
@@ -40,5 +45,18 @@ describe("utils", () => {
         "Canvas toBlob failed",
       );
     });
+  });
+
+  it("isValidRect", () => {
+    expect(isValidRect({ x: 0, y: 0, width: 0, height: 0 })).toBe(true);
+  });
+
+  it("unionRect", () => {
+    expect(
+      unionRects(
+        { x: 0, y: 0, width: 10, height: 10 },
+        { x: 5, y: 5, width: 10, height: 10 },
+      ),
+    ).toEqual({ x: 0, y: 0, width: 15, height: 15 });
   });
 });

@@ -49,10 +49,13 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@svg-fns/svg2img": "workspace:^",
+    "@svg-fns/io": "workspace:^",
     "@svg-fns/info": "workspace:^",
+    "@svg-fns/layout": "workspace:^",
     "@svg-fns/math": "workspace:^",
-    "@svg-fns/io": "workspace:^"
+    "@svg-fns/types": "workspace:^",
+    "@svg-fns/utils": "workspace:^",
+    "@svg-fns/svg2img": "workspace:^"
   },
   "funding": [
     {

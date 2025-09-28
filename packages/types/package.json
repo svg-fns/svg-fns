@@ -1,0 +1,55 @@
+{
+  "name": "@svg-fns/types",
+  "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
+  "private": false,
+  "version": "0.0.0",
+  "description": "Shared TypeScript type definitions for svg-fns libraries — Rect, Point, Matrix, Padding, and other geometry/layout primitives.",
+  "license": "MPL-2.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "repository": "github:svg-fns/svg-fns",
+  "bugs": "https://github.com/svg-fns/svg-fns/issues",
+  "homepage": "https://github.com/svg-fns/svg-fns/tree/main/packages/types/#readme",
+  "sideEffects": false,
+  "files": [
+    "src/**"
+  ],
+  "exports": {
+    ".": "./src/index.d.ts"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/svg-fns"
+    },
+    {
+      "type": "github",
+      "url": "https:/github.com/sponsors/mayank1513"
+    }
+  ],
+  "keywords": [
+    "svg",
+    "typescript",
+    "types",
+    "geometry",
+    "rect",
+    "point",
+    "matrix",
+    "padding",
+    "affine-transform",
+    "svg-fns",
+    "layout",
+    "math",
+    "Customizable",
+    "Cutting-edge",
+    "Compatibility",
+    "Frontend development",
+    "UI components",
+    "Progressive",
+    "Web development",
+    "Modern",
+    "Seamless integration",
+    "mayank1513"
+  ]
+}

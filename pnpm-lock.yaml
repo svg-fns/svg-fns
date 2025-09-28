@@ -164,12 +164,21 @@ importers:
       '@svg-fns/io':
         specifier: workspace:^
         version: link:../packages/io
+      '@svg-fns/layout':
+        specifier: workspace:^
+        version: link:../packages/layout
       '@svg-fns/math':
         specifier: workspace:^
         version: link:../packages/math
       '@svg-fns/svg2img':
         specifier: workspace:^
         version: link:../packages/svg2img
+      '@svg-fns/types':
+        specifier: workspace:^
+        version: link:../packages/types
+      '@svg-fns/utils':
+        specifier: workspace:^
+        version: link:../packages/utils
     devDependencies:
       '@resvg/resvg-js':
         specifier: ^2.6.2
@@ -255,8 +264,35 @@ importers:
         specifier: ^5.9.2
         version: 5.9.2
 
+  packages/layout:
+    devDependencies:
+      '@svg-fns/types':
+        specifier: workspace:^
+        version: link:../types
+      '@svg-fns/utils':
+        specifier: workspace:^
+        version: link:../utils
+      '@types/node':
+        specifier: ^24.5.0
+        version: 24.5.2
+      esbuild-plugin-rdi:
+        specifier: ^0.0.0
+        version: 0.0.0
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(postcss@8.5.6)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1)
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.2
+
   packages/math:
     devDependencies:
+      '@svg-fns/types':
+        specifier: workspace:^
+        version: link:../types
+      '@svg-fns/utils':
+        specifier: workspace:^
+        version: link:../utils
       '@types/node':
         specifier: ^24.5.0
         version: 24.5.2
@@ -372,6 +408,8 @@ importers:
       typescript:
         specifier: ^5.9.2
         version: 5.9.2
+
+  packages/types: {}
 
   packages/utils:
     devDependencies:

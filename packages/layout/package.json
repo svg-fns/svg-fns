@@ -1,16 +1,16 @@
 {
-  "name": "@svg-fns/math",
+  "name": "@svg-fns/layout",
   "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
   "private": false,
   "version": "0.0.0",
-  "description": "Core SVG math utilities: 2D affine transforms, geometry helpers, and path helpers for high-quality SVG manipulation.",
+  "description": "Lightweight SVG layout utilities — viewBox parsing, scaling, cropping, and trimming for precise content-aware rendering.",
   "license": "MPL-2.0",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "repository": "github:svg-fns/svg-fns",
   "bugs": "https://github.com/svg-fns/svg-fns/issues",
-  "homepage": "https://github.com/svg-fns/svg-fns/tree/main/packages/math/#readme",
+  "homepage": "https://github.com/svg-fns/svg-fns/tree/main/packages/layout/#readme",
   "sideEffects": false,
   "files": [
     "dist/**"
@@ -29,12 +29,12 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@svg-fns/types": "workspace:^",
+    "@svg-fns/utils": "workspace:^",
     "@types/node": "^24.5.0",
     "esbuild-plugin-rdi": "^0.0.0",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2",
-    "@svg-fns/types": "workspace:^",
-    "@svg-fns/utils": "workspace:^"
+    "typescript": "^5.9.2"
   },
   "funding": [
     {
@@ -48,16 +48,15 @@
   ],
   "keywords": [
     "svg",
-    "math",
+    "viewBox",
+    "layout",
+    "crop",
+    "scale",
+    "bounding-box",
+    "transform",
     "geometry",
-    "transforms",
-    "path",
-    "affine",
-    "vector",
-    "graphics",
+    "content-aware",
     "svg-fns",
-    "2d",
-    "coordinate",
     "Customizable",
     "Cutting-edge",
     "Compatibility",

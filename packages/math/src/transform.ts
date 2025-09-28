@@ -11,8 +11,8 @@
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform}
  */
 
+import type { Matrix, Point } from "@svg-fns/types";
 import { DEG_TO_RAD, RAD_TO_DEG } from "@svg-fns/utils";
-import type { Matrix, Point } from "./types";
 
 // --- Matrix Factories ---
 

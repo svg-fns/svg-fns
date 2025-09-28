@@ -6,8 +6,8 @@
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths}
  */
 
+import type { Point } from "@svg-fns/types";
 import { DEG_TO_RAD, RAD_TO_DEG } from "@svg-fns/utils";
-import type { Point } from "./types";
 
 /**
  * Converts polar coordinates to a Cartesian point.
