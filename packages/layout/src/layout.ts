@@ -227,6 +227,8 @@ export const tightlyCropSvg = (
   return { box, apply };
 };
 
+export { tightlyCropSvg as trimSvg };
+
 // --- Pan & Zoom (viewBox-based) ---
 
 /**
