@@ -1,5 +1,12 @@
 # @svg-fns/svg2img
 
+## 1.1.0
+
+### Minor Changes
+
+- 516dd38: - Add radian to degree conversion helpers.
+  - Add rect utils such as union etc.
+
 ## 1.0.0
 
 ### Major Changes
