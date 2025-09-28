@@ -29,6 +29,8 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@svg-fns/types": "workspace:^",
+    "@svg-fns/utils": "workspace:^",
     "@types/node": "^24.5.0",
     "esbuild-plugin-rdi": "^0.0.0",
     "tsup": "^8.5.0",

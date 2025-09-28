@@ -3,8 +3,8 @@
  * Provides fundamental 2D geometry utilities and calculations.
  */
 
+import type { Point } from "@svg-fns/types";
 import { DEG_TO_RAD } from "@svg-fns/utils";
-import type { Point } from "./types";
 
 // --- Core Geometry Functions ---
 

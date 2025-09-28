@@ -1,0 +1,5 @@
+---
+"svg-fns": patch
+---
+
+ok
