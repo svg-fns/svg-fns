@@ -164,12 +164,21 @@ importers:
       '@svg-fns/io':
         specifier: workspace:^
         version: link:../packages/io
+      '@svg-fns/layout':
+        specifier: workspace:^
+        version: link:../packages/layout
       '@svg-fns/math':
         specifier: workspace:^
         version: link:../packages/math
       '@svg-fns/svg2img':
         specifier: workspace:^
         version: link:../packages/svg2img
+      '@svg-fns/types':
+        specifier: workspace:^
+        version: link:../packages/types
+      '@svg-fns/utils':
+        specifier: workspace:^
+        version: link:../packages/utils
     devDependencies:
       '@resvg/resvg-js':
         specifier: ^2.6.2
@@ -257,6 +266,12 @@ importers:
 
   packages/layout:
     devDependencies:
+      '@svg-fns/types':
+        specifier: workspace:^
+        version: link:../types
+      '@svg-fns/utils':
+        specifier: workspace:^
+        version: link:../utils
       '@types/node':
         specifier: ^24.5.0
         version: 24.5.2
@@ -272,6 +287,12 @@ importers:
 
   packages/math:
     devDependencies:
+      '@svg-fns/types':
+        specifier: workspace:^
+        version: link:../types
+      '@svg-fns/utils':
+        specifier: workspace:^
+        version: link:../utils
       '@types/node':
         specifier: ^24.5.0
         version: 24.5.2
