@@ -75,6 +75,7 @@
     "svg parser",
     "svg convert",
     "svg info",
+    "svg crop",
     "svg dimensions",
     "svg colors",
     "svg to png",

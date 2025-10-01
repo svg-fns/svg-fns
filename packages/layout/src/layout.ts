@@ -164,7 +164,7 @@ export const updateDimensions = (
 export const getBBoxWithTransform = (el: SVGGraphicsElement): Rect => {
   try {
     const localBox = el.getBBox();
-    const ctm = el.getCTM();
+    const ctm = el.getCTM?.();
     if (!ctm) return localBox; // no transform → fallback
 
     const corners = [

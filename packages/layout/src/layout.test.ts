@@ -13,8 +13,6 @@ import {
   translateViewBox,
 } from "./layout";
 
-const SVG_NS = "http://www.w3.org/2000/svg";
-
 const createSampleSvg = (addPath = false) => {
   const SVG_NS = "http://www.w3.org/2000/svg";
 
