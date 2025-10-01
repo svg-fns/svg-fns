@@ -1,5 +1,13 @@
 # svg-fns
 
+## 0.1.1
+
+### Patch Changes
+
+- 55b691e: Added `getBBoxWithTransform` utility and replaced direct `getBBox` usage with it for accurate bounding box calculations (accounts for transforms).
+- Updated dependencies [55b691e]
+  - @svg-fns/layout@0.1.0
+
 ## 0.1.0
 
 ### Minor Changes

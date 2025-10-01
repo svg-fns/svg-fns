@@ -28,7 +28,7 @@
     "plop": "^4.0.4",
     "tsx": "^4.20.6",
     "turbo": "^2.5.8",
-    "turborepo-template-upgrade": "^0.6.2",
+    "turborepo-template-upgrade": "^0.8.0",
     "typedoc": "^0.28.13",
     "typedoc-plugin-markdown": "^4.9.0",
     "typedoc-plugin-mdn-links": "^5.0.9",

@@ -59,10 +59,10 @@
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
     "@svg-fns/utils": "workspace:^",
-    "@types/node": "^24.5.0",
+    "@types/node": "^24.6.1",
     "esbuild-plugin-rdi": "^0.0.0",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   },
   "funding": [
     {

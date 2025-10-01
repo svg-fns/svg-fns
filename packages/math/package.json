@@ -29,12 +29,12 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/node": "^24.5.0",
+    "@svg-fns/types": "workspace:^",
+    "@svg-fns/utils": "workspace:^",
+    "@types/node": "^24.6.1",
     "esbuild-plugin-rdi": "^0.0.0",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2",
-    "@svg-fns/types": "workspace:^",
-    "@svg-fns/utils": "workspace:^"
+    "typescript": "^5.9.3"
   },
   "funding": [
     {

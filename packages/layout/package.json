@@ -2,7 +2,7 @@
   "name": "@svg-fns/layout",
   "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
   "private": false,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Lightweight SVG layout utilities — viewBox parsing, scaling, cropping, and trimming for precise content-aware rendering.",
   "license": "MPL-2.0",
   "main": "./dist/index.js",
@@ -31,10 +31,10 @@
   "devDependencies": {
     "@svg-fns/types": "workspace:^",
     "@svg-fns/utils": "workspace:^",
-    "@types/node": "^24.5.0",
+    "@types/node": "^24.6.1",
     "esbuild-plugin-rdi": "^0.0.0",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   },
   "funding": [
     {

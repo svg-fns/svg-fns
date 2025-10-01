@@ -2,7 +2,7 @@
   "name": "svg-fns",
   "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
   "private": false,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lightweight, tree-shakeable utilities for working with SVGs. Modular design inspired by date-fns — import only what you need.",
   "license": "MPL-2.0",
   "main": "./dist/index.js",
@@ -41,21 +41,21 @@
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
-    "@types/node": "^24.5.0",
+    "@types/node": "^24.6.1",
     "@xmldom/xmldom": "^0.8.11",
     "esbuild-plugin-rdi": "^0.0.0",
     "sharp": "^0.34.4",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@svg-fns/io": "workspace:^",
     "@svg-fns/info": "workspace:^",
+    "@svg-fns/io": "workspace:^",
     "@svg-fns/layout": "workspace:^",
     "@svg-fns/math": "workspace:^",
+    "@svg-fns/svg2img": "workspace:^",
     "@svg-fns/types": "workspace:^",
-    "@svg-fns/utils": "workspace:^",
-    "@svg-fns/svg2img": "workspace:^"
+    "@svg-fns/utils": "workspace:^"
   },
   "funding": [
     {
