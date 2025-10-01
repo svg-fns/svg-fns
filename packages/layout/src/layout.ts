@@ -139,6 +139,59 @@ export const updateDimensions = (
 // --- Content bbox calculation ---
 
 /**
+ * Compute the bounding box of an SVG element with its current transform matrix applied.
+ *
+ * Unlike `element.getBBox()`, which ignores transforms (scale, rotate, translate),
+ * this function projects the element's local bounding box into the SVG's coordinate
+ * system by applying the element's `CTM` (current transformation matrix).
+ *
+ * @param el - Any SVGGraphicsElement (e.g., <path>, <text>, <rect>, <g>, <image>, …)
+ * @returns The transformed bounding box as { x, y, width, height }
+ *
+ * @example
+ * ```ts
+ * const svg = document.querySelector("svg")!;
+ * const text = svg.querySelector("text")!;
+ * const box = getBBoxWithTransform(text);
+ * console.log(box); // Correct bounds, accounting for transform="scale(.1)"
+ * ```
+ *
+ * @remarks
+ * - Throws if the element does not support `getBBox()`.
+ * - Returns the raw transformed box; if you need union across multiple elements,
+ *   compose with a `unionRects` utility.
+ */
+export const getBBoxWithTransform = (el: SVGGraphicsElement): Rect => {
+  try {
+    const localBox = el.getBBox();
+    const ctm = el.getCTM();
+    if (!ctm) return localBox; // no transform → fallback
+
+    const corners = [
+      new DOMPoint(localBox.x, localBox.y),
+      new DOMPoint(localBox.x + localBox.width, localBox.y),
+      new DOMPoint(localBox.x, localBox.y + localBox.height),
+      new DOMPoint(localBox.x + localBox.width, localBox.y + localBox.height),
+    ].map((p) => p.matrixTransform(ctm));
+
+    const xs = corners.map((p) => p.x);
+    const ys = corners.map((p) => p.y);
+
+    const bbox = {
+      x: Math.min(...xs),
+      y: Math.min(...ys),
+      width: Math.max(...xs) - Math.min(...xs),
+      height: Math.max(...ys) - Math.min(...ys),
+    };
+    if (!isValidRect(bbox)) throw new Error("Invalid rect");
+    return bbox;
+  } catch (err) {
+    console.debug("Error computing bbox with transform", el, err);
+    return { x: 0, y: 0, width: 0, height: 0 };
+  }
+};
+
+/**
  * Compute a tight bounding box of SVG content.
  * - Starts with root <svg> getBBox()
  * - Optionally expands to children that extend beyond root
@@ -152,25 +205,13 @@ export const getContentBBox = (
   svg: SVGSVGElement,
   clipToViewBox = false,
 ): Rect => {
-  let bbox: Rect;
-  try {
-    bbox = svg.getBBox();
-  } catch {
-    bbox = { x: 0, y: 0, width: 0, height: 0 };
-  }
+  let bbox: Rect = getBBoxWithTransform(svg);
 
   if (!clipToViewBox) {
-    for (const el of svg.querySelectorAll(
-      "g, use, path, rect, circle, ellipse, line, polygon, polyline, text",
-    ) as NodeListOf<SVGGraphicsElement>) {
-      try {
-        const elBBox = el.getBBox();
-        if (isValidRect(elBBox)) {
-          bbox = unionRects(bbox, elBBox);
-        }
-      } catch {
-        // ignore
-      }
+    for (const el of svg.querySelectorAll<SVGGraphicsElement>(
+      "g, use, path, rect, circle, ellipse, line, polygon, polyline, text, image",
+    )) {
+      bbox = unionRects(bbox, getBBoxWithTransform(el));
     }
   }
 
@@ -187,8 +228,9 @@ export const getContentBBox = (
 export const computeTrimBox = (
   svg: SVGSVGElement,
   padding: Padding = 0,
+  clipToViewBox = false,
 ): Rect => {
-  const content = getContentBBox(svg);
+  const content = getContentBBox(svg, clipToViewBox);
   const pad = toPadding(padding);
   return {
     x: content.x - pad.left,
@@ -212,10 +254,11 @@ export const tightlyCropSvg = (
     mutate?: boolean;
     preserveDimensions?: boolean;
     round?: boolean;
+    clipToViewBox?: boolean;
   },
 ): { box: Rect; apply: (target?: SVGSVGElement) => SVGSVGElement } => {
   const padding = opts?.padding ?? 0;
-  const box = computeTrimBox(svg, padding);
+  const box = computeTrimBox(svg, padding, opts?.clipToViewBox);
   const apply = (target: SVGSVGElement = svg) => {
     setViewBox(target, box, { round: opts?.round });
     if (!opts?.preserveDimensions)
@@ -226,8 +269,6 @@ export const tightlyCropSvg = (
   if (opts?.mutate ?? true) apply(svg);
   return { box, apply };
 };
-
-export { tightlyCropSvg as trimSvg };
 
 // --- Pan & Zoom (viewBox-based) ---
 
@@ -344,8 +385,8 @@ export const centerSvg = (
   const vb = getViewBox(svg) ?? {
     x: 0,
     y: 0,
-    width: content.width || 0 || 100,
-    height: content.height || 0 || 100,
+    width: content.width,
+    height: content.height,
   };
   const cx = content.x + content.width / 2;
   const cy = content.y + content.height / 2;
