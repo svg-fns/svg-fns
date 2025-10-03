@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import {
-  blobToDataURLBrowser,
+  blobToDataURL,
   canvasToBlob,
   isValidRect,
   unionRects,
@@ -10,7 +10,7 @@ describe("utils", () => {
   describe("blobToDataURLBrowser", () => {
     it("resolves a base64 string from Blob", async () => {
       const blob = new Blob(["hello"], { type: "text/plain" });
-      const result = await blobToDataURLBrowser(blob);
+      const result = await blobToDataURL(blob);
       expect(result).toMatch(/^data:text\/plain;base64,/);
     });
   });

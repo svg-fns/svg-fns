@@ -5,7 +5,7 @@ import type { Padding, Rect } from "@svg-fns/types";
  * @param blob - The Blob to convert
  * @returns A promise resolving to a data URL string
  */
-export const blobToDataURLBrowser = (blob: Blob): Promise<string> =>
+export const blobToDataURL = (blob: Blob): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = () => resolve(reader.result as string);

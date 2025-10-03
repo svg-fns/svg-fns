@@ -1,8 +1,4 @@
-import {
-  blobToDataURLBrowser,
-  canvasToBlob,
-  resolveDimensions,
-} from "@svg-fns/utils";
+import { blobToDataURL, canvasToBlob, resolveDimensions } from "@svg-fns/utils";
 import type { Options, SvgConversionResult } from "./types";
 import { parseOptions } from "./utils";
 
@@ -31,7 +27,7 @@ export const svgToBlob = async (
     return { blob: svgBlob, format };
   }
 
-  const svgUrl = await blobToDataURLBrowser(svgBlob);
+  const svgUrl = await blobToDataURL(svgBlob);
   const img = new Image();
   img.src = svgUrl;
   await new Promise<void>((res, rej) => {
@@ -126,7 +122,7 @@ export const svgToDataUrl = async (
   opts?: Options,
 ): Promise<SvgConversionResult> => {
   const res = await svgToBlob(svg, opts);
-  if (res.blob) res.dataUrl = await blobToDataURLBrowser(res.blob);
+  if (res.blob) res.dataUrl = await blobToDataURL(res.blob);
   return res;
 };
 
