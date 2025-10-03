@@ -98,23 +98,13 @@ export const svgToBlob = async (
 
   const mimeType = `image/${format === "jpg" ? "jpeg" : format}`;
   try {
-    const blob = await canvasToBlob(
-      isOffscreenCanvas,
-      canvas,
-      mimeType,
-      quality,
-    );
+    const blob = await canvasToBlob(canvas, mimeType, quality);
     return { blob, width: w, height: h, format, scale };
   } catch {
     console.warn(
       `[svgToBlob] Format "${format}" unsupported. Falling back to PNG.`,
     );
-    const blob = await canvasToBlob(
-      isOffscreenCanvas,
-      canvas,
-      "image/png",
-      quality,
-    );
+    const blob = await canvasToBlob(canvas, "image/png", quality);
     return { blob, width: w, height: h, format: "png", scale };
   }
 };

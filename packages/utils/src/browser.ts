@@ -16,20 +16,18 @@ export const blobToDataURLBrowser = (blob: Blob): Promise<string> =>
 /**
  * Convert a canvas to a Blob (supports OffscreenCanvas and HTMLCanvasElement).
  *
- * @param isOffscreenCanvas - True if canvas is OffscreenCanvas
  * @param canvas - Canvas instance
  * @param mimeType - MIME type (e.g. "image/png")
  * @param quality - 0–1 quality for lossy formats
  * @returns A Promise resolving to a Blob
  */
 export const canvasToBlob = (
-  isOffscreenCanvas: boolean,
   canvas: OffscreenCanvas | HTMLCanvasElement,
   mimeType: string | undefined,
-  quality: number,
+  quality: number = 0.92,
 ): Promise<Blob> => {
-  if (isOffscreenCanvas) {
-    return (canvas as OffscreenCanvas).convertToBlob({
+  if (canvas instanceof OffscreenCanvas) {
+    return canvas.convertToBlob({
       type: mimeType,
       quality: Math.round(quality * 100),
     });
