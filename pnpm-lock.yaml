@@ -2070,8 +2070,8 @@ packages:
     resolution: {integrity: sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==}
     engines: {node: '>=12'}
 
-  ast-v8-to-istanbul@0.3.7:
-    resolution: {integrity: sha512-kr1Hy6YRZBkGQSb6puP+D6FQ59Cx4m0siYhAxygMCAgadiWQ6oxAxQXHOMvJx67SJ63jRoVIIg5eXzUbbct1ww==}
+  ast-v8-to-istanbul@0.3.8:
+    resolution: {integrity: sha512-szgSZqUxI5T8mLKvS7WTjF9is+MVbOeLADU73IseOcrqhxr/VAvy6wfoVE39KnKzA7JRhjF5eUagNlHwvZPlKQ==}
 
   autoprefixer@10.4.21:
     resolution: {integrity: sha512-O+A6LWV5LDHSJD3LjHYoNi4VLsj/Whi7k6zG12xTYaU4cQ8oxQGckXNX8cRHK5yOZ/ppVHe0ZBXGzSV9jXdVbQ==}
@@ -3103,8 +3103,8 @@ packages:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
     hasBin: true
 
-  magic-string@0.30.19:
-    resolution: {integrity: sha512-2N21sPY9Ws53PZvsEpVtNuSW+ScYbQdp4b9qUaL+9QkHUrGFKo56Lg9Emg5s9V/qrtNBmiR01sYhUOwu3H+VOw==}
+  magic-string@0.30.21:
+    resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
   magicast@0.3.5:
     resolution: {integrity: sha512-L0WhttDl+2BOsybvEOLK7fW3UA0OQ0IQ2d6Zl2x/a6vVRs3bAY0ECOSHHeL5jD+SbOpOCUEi0y1DgHEn9Qn1AQ==}
@@ -5797,13 +5797,13 @@ snapshots:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 1.0.2
-      ast-v8-to-istanbul: 0.3.7
+      ast-v8-to-istanbul: 0.3.8
       debug: 4.4.3
       istanbul-lib-coverage: 3.2.2
       istanbul-lib-report: 3.0.1
       istanbul-lib-source-maps: 5.0.6
       istanbul-reports: 3.2.0
-      magic-string: 0.30.19
+      magic-string: 0.30.21
       magicast: 0.3.5
       std-env: 3.10.0
       test-exclude: 7.0.1
@@ -5824,7 +5824,7 @@ snapshots:
     dependencies:
       '@vitest/spy': 3.2.4
       estree-walker: 3.0.3
-      magic-string: 0.30.19
+      magic-string: 0.30.21
     optionalDependencies:
       vite: 7.1.12(@types/node@24.9.1)(sass@1.93.2)(tsx@4.20.6)(yaml@2.8.1)
 
@@ -5841,7 +5841,7 @@ snapshots:
   '@vitest/snapshot@3.2.4':
     dependencies:
       '@vitest/pretty-format': 3.2.4
-      magic-string: 0.30.19
+      magic-string: 0.30.21
       pathe: 2.0.3
 
   '@vitest/spy@3.2.4':
@@ -5898,7 +5898,7 @@ snapshots:
 
   assertion-error@2.0.1: {}
 
-  ast-v8-to-istanbul@0.3.7:
+  ast-v8-to-istanbul@0.3.8:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       estree-walker: 3.0.3
@@ -6487,7 +6487,7 @@ snapshots:
 
   fix-dts-default-cjs-exports@1.0.1:
     dependencies:
-      magic-string: 0.30.19
+      magic-string: 0.30.21
       mlly: 1.8.0
       rollup: 4.52.3
 
@@ -7029,7 +7029,7 @@ snapshots:
 
   lz-string@1.5.0: {}
 
-  magic-string@0.30.19:
+  magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
@@ -8420,7 +8420,7 @@ snapshots:
       chai: 5.3.3
       debug: 4.4.3
       expect-type: 1.2.2
-      magic-string: 0.30.19
+      magic-string: 0.30.21
       pathe: 2.0.3
       picomatch: 4.0.3
       std-env: 3.10.0
