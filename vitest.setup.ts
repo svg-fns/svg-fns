@@ -80,3 +80,62 @@ Object.defineProperty(window, "media", {
   writable: true,
   value: "dark",
 });
+
+vi.stubGlobal(
+  "OffscreenCanvas",
+  class OffscreenCanvasMock {
+    width: number;
+    height: number;
+    constructor(width: number, height: number) {
+      this.width = width;
+      this.height = height;
+      // Add any other properties or methods your code expects
+    }
+    getContext() {
+      // Mock getContext if needed, return a dummy context object
+      return {
+        fillRect: vi.fn(),
+        // ... other context methods
+      };
+    }
+  },
+);
+
+// Preserve a reference to the actual URL constructor if it exists (e.g., in Node environments)
+const ActualURL = global.URL;
+
+// Define a mock constructor function
+const MockURL = vi.fn((url, base) => {
+  // You can optionally return a real URL object if the environment supports it
+  // and you want the new URL(...) to have actual URL properties (like .hostname, .pathname, etc.)
+  if (ActualURL) {
+    return new ActualURL(url, base);
+  }
+  // Otherwise, return a basic mock object with necessary properties
+  return {
+    href: url,
+    // Add other properties as needed:
+    pathname: url.split("/")[url.split("/").length - 1],
+    // ...
+  };
+});
+
+// Attach the static methods to the mock constructor
+// @ts-expect-error -- ok test
+MockURL.createObjectURL = vi.fn(() => "mock-object-url");
+// @ts-expect-error -- ok test
+MockURL.revokeObjectURL = vi.fn();
+
+// Define the global/window property
+Object.defineProperty(window, "URL", {
+  writable: true,
+  configurable: true, // often helpful to allow re-defining in other tests
+  value: MockURL,
+});
+
+// For Node/global scope if 'window' isn't enough
+Object.defineProperty(global, "URL", {
+  writable: true,
+  configurable: true,
+  value: MockURL,
+});

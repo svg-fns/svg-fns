@@ -7,7 +7,7 @@ import {
 } from "./browser";
 
 describe("utils", () => {
-  describe("blobToDataURLBrowser", () => {
+  describe("blobToDataURL", () => {
     it("resolves a base64 string from Blob", async () => {
       const blob = new Blob(["hello"], { type: "text/plain" });
       const result = await blobToDataURL(blob);
@@ -16,24 +16,13 @@ describe("utils", () => {
   });
 
   describe("canvasToBlob", () => {
-    it("calls convertToBlob for OffscreenCanvas", async () => {
-      const mockBlob = new Blob([]);
-      const canvas = {
-        convertToBlob: vi.fn().mockResolvedValue(mockBlob),
-      } as unknown as OffscreenCanvas;
-
-      const blob = await canvasToBlob(true, canvas, "image/png", 0.5);
-      expect(blob).toBe(mockBlob);
-      expect(canvas.convertToBlob).toHaveBeenCalled();
-    });
-
     it("calls toBlob for HTMLCanvasElement", async () => {
       const mockBlob = new Blob([]);
       const canvas = {
         toBlob: (cb: (b: Blob | null) => void) => cb(mockBlob),
       } as unknown as HTMLCanvasElement;
 
-      const blob = await canvasToBlob(false, canvas, "image/png", 0.5);
+      const blob = await canvasToBlob(canvas, "image/png", 0.5);
       expect(blob).toBe(mockBlob);
     });
 
@@ -41,7 +30,7 @@ describe("utils", () => {
       const canvas = {
         toBlob: (cb: (b: Blob | null) => void) => cb(null),
       } as unknown as HTMLCanvasElement;
-      await expect(canvasToBlob(false, canvas, "image/png", 1)).rejects.toThrow(
+      await expect(canvasToBlob(canvas, "image/png", 1)).rejects.toThrow(
         "Canvas toBlob failed",
       );
     });
