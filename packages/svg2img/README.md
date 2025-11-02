@@ -63,7 +63,7 @@ pnpm add sharp
 ### Browser
 
 - **`svgToBlob(svg, options)`** → `Blob`
-- **`svgToDataUrlBrowser(svg, options)`** → `string (data URL)`
+- **`svgToDataUrl(svg, options)`** → `string (data URL)`
 
 ### Node.js
 
