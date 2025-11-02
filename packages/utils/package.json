@@ -3,7 +3,7 @@
   "author": "Mayank Kumar Chaudhari (https:/mayank-chaudhari.vercel.app)",
   "private": false,
   "version": "2.0.0",
-  "description": "",
+  "description": "Shared low-level utility helpers for DOM, string parsing, numeric validation, and safe SVG runtime checks used internally across svg-fns packages.",
   "license": "MPL-2.0",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
