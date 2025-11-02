@@ -1,5 +1,16 @@
 # @svg-fns/svg2img
 
+## 0.2.0
+
+### Minor Changes
+
+- 1bc979f: Add worker support
+
+### Patch Changes
+
+- e09c1ab: Rename `blobToDataURLBrowser` to `blobToDataURL`.
+- 3855768: Simplify canvasToBlob function. Use `canvas instanceof OffscreenCanvas` rather than requiring `isOffscreenCanvas` as first argument.
+
 ## 0.1.0
 
 ### Minor Changes

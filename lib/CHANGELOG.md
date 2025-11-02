@@ -1,5 +1,18 @@
 # svg-fns
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [e09c1ab]
+- Updated dependencies [3855768]
+- Updated dependencies [1bc979f]
+  - @svg-fns/utils@2.0.0
+  - @svg-fns/svg2img@0.2.0
+  - @svg-fns/info@1.0.0
+  - @svg-fns/layout@0.1.0
+  - @svg-fns/math@0.0.0
+
 ## 0.1.1
 
 ### Patch Changes
