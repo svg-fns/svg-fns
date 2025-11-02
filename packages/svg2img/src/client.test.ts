@@ -35,6 +35,32 @@ describe.concurrent("svgToBlob (client)", () => {
     expect(result.blob?.type).toBe("image/jpeg");
   });
 
+  it("handles different formats", async () => {
+    const formats = ["png", "jpeg", "webp"] as const;
+    for (const format of formats) {
+      const result = await svgToBlob(SAMPLE_SVG, { format });
+      expect(result.blob).toBeInstanceOf(Blob);
+      expect(result.format).toBe(format);
+    }
+  });
+
+  it("handles quality parameter", async () => {
+    const result = await svgToBlob(SAMPLE_SVG, {
+      format: "jpeg",
+      quality: 0.5,
+    });
+    expect(result.blob).toBeInstanceOf(Blob);
+  });
+
+  it("handles scale without explicit dimensions", async () => {
+    const result = await svgToBlob(SAMPLE_SVG, {
+      format: "png",
+      scale: 3,
+    });
+    expect(result.blob).toBeInstanceOf(Blob);
+    expect(result.scale).toBe(3);
+  });
+
   it.each(["fill", "cover", "contain", "inside", "outside"])(
     "renders correctly with fit=%s",
     async (fit) => {
@@ -48,6 +74,32 @@ describe.concurrent("svgToBlob (client)", () => {
       expect(result.blob).toBeInstanceOf(Blob);
     },
   );
+
+  it("handles missing dimensions with fit modes", async () => {
+    const result = await svgToBlob(SAMPLE_SVG, {
+      format: "png",
+      fit: "contain",
+    });
+    expect(result.blob).toBeInstanceOf(Blob);
+  });
+
+  it("handles only width specified", async () => {
+    const result = await svgToBlob(SAMPLE_SVG, {
+      format: "png",
+      width: 100,
+    });
+    expect(result.blob).toBeInstanceOf(Blob);
+    expect(result.width).toBe(100);
+  });
+
+  it("handles only height specified", async () => {
+    const result = await svgToBlob(SAMPLE_SVG, {
+      format: "png",
+      height: 80,
+    });
+    expect(result.blob).toBeInstanceOf(Blob);
+    expect(result.height).toBe(80);
+  });
 });
 
 describe("svgToDataUrl", () => {
@@ -59,5 +111,20 @@ describe("svgToDataUrl", () => {
   it("returns dataUrl for SVG format", async () => {
     const result = await svgToDataUrl(SAMPLE_SVG, { format: "svg" });
     expect(result.dataUrl?.startsWith("data:image/svg+xml;base64,")).toBe(true);
+  });
+
+  it("includes blob in result", async () => {
+    const result = await svgToDataUrl(SAMPLE_SVG, { format: "png" });
+    expect(result.blob).toBeInstanceOf(Blob);
+    expect(result.dataUrl).toBeDefined();
+  });
+
+  it("handles different formats for dataUrl", async () => {
+    const formats = ["png", "jpeg", "svg"] as const;
+    for (const format of formats) {
+      const result = await svgToDataUrl(SAMPLE_SVG, { format });
+      expect(result.dataUrl).toBeDefined();
+      expect(result.format).toBe(format);
+    }
   });
 });

@@ -51,9 +51,37 @@ describe("svgToBuffer (Node.js)", () => {
     expect(result.width).toBe(200);
     expect(result.height).toBe(200); // maintains aspect ratio
   });
+
+  it("handles different quality values", async () => {
+    const result = await svgToBuffer(SAMPLE_SVG, {
+      format: "jpeg",
+      quality: 0.8,
+    });
+    expect(result.buffer).toBeInstanceOf(Buffer);
+  });
+
+  it("handles missing dimensions", async () => {
+    const result = await svgToBuffer(SAMPLE_SVG, {
+      format: "png",
+    });
+    expect(result.buffer).toBeInstanceOf(Buffer);
+  });
+
+  it("handles different fit modes", async () => {
+    const fits = ["cover", "contain", "fill", "inside", "outside"] as const;
+    for (const fit of fits) {
+      const result = await svgToBuffer(SAMPLE_SVG, {
+        format: "png",
+        width: 100,
+        height: 100,
+        fit,
+      });
+      expect(result.buffer).toBeInstanceOf(Buffer);
+    }
+  });
 });
 
-describe("svgToDataUrlNode", () => {
+describe("svgToDataUrlServer", () => {
   it("produces valid base64 dataUrl", async () => {
     const result = await svgToDataUrlServer(SAMPLE_SVG, { format: "jpeg" });
     expect(result.dataUrl?.startsWith("data:image/jpeg;base64,")).toBe(true);
@@ -63,13 +91,14 @@ describe("svgToDataUrlNode", () => {
     const result = await svgToDataUrlServer(SAMPLE_SVG, { format: "svg" });
     expect(result.dataUrl?.startsWith("data:image/svg+xml;base64,")).toBe(true);
   });
-});
 
-describe("svgToDataUrl (universal)", () => {
-  it("calls browser version when not Node", async () => {
-    const result = await (await import("./server")).svgToDataUrl(SAMPLE_SVG, {
-      format: "png",
-    });
-    expect(result.dataUrl?.startsWith("data:image/png;base64,")).toBe(true);
+  it("handles jpg format alias", async () => {
+    const result = await svgToDataUrlServer(SAMPLE_SVG, { format: "jpg" });
+    expect(result.dataUrl?.startsWith("data:image/jpg;base64,")).toBe(true);
+  });
+
+  it("handles undefined format", async () => {
+    const result = await svgToDataUrlServer(SAMPLE_SVG, {});
+    expect(result.dataUrl?.startsWith("data:image/svg+xml;base64,")).toBe(true);
   });
 });
