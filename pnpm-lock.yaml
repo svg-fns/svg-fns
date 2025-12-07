@@ -430,8 +430,8 @@ importers:
 
 packages:
 
-  '@acemir/cssom@0.9.27':
-    resolution: {integrity: sha512-Ja8SQ/4mec5WZABC1F9XB1juJlkdHVZ4F1dftBmXagtZnbmspW+tuzd4bo35eRrc48iAEtk1yTUzBveOsa/MZA==}
+  '@acemir/cssom@0.9.28':
+    resolution: {integrity: sha512-LuS6IVEivI75vKN8S04qRD+YySP0RmU/cV8UNukhQZvprxF+76Z43TNo/a08eCodaGhT1Us8etqS1ZRY9/Or0A==}
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -3182,8 +3182,8 @@ packages:
     resolution: {integrity: sha512-XCHRdUw4lf3SKBaJe4EvgqIuWwkPSo9XoeO8GjQW94Bp7TWv9hNhzZjZ+OH9yf1UmLygb7DIT5GSFQiyt16zYg==}
     hasBin: true
 
-  katex@0.16.25:
-    resolution: {integrity: sha512-woHRUZ/iF23GBP1dkDQMh1QBad9dmr8/PAwNA54VrSOVYgI12MAcE14TqnDdQOdzyEonGzMepYnqBMYdsoAr8Q==}
+  katex@0.16.26:
+    resolution: {integrity: sha512-LvYwQDwfcFB3rCkxwzqVFxhIB21x1JivrWAs3HT9NsmtgvQrcVCZ6xihnNwXwiQ8UhqRtDJRmwrRz5EgzQ2DuA==}
     hasBin: true
 
   khroma@2.1.0:
@@ -4629,7 +4629,7 @@ packages:
 
 snapshots:
 
-  '@acemir/cssom@0.9.27': {}
+  '@acemir/cssom@0.9.28': {}
 
   '@ampproject/remapping@2.3.0':
     dependencies:
@@ -7220,7 +7220,7 @@ snapshots:
 
   jsdom@27.2.0:
     dependencies:
-      '@acemir/cssom': 0.9.27
+      '@acemir/cssom': 0.9.28
       '@asamuzakjp/dom-selector': 6.7.6
       cssstyle: 5.3.3
       data-urls: 6.0.0
@@ -7264,7 +7264,7 @@ snapshots:
     dependencies:
       commander: 8.3.0
 
-  katex@0.16.25:
+  katex@0.16.26:
     dependencies:
       commander: 8.3.0
 
@@ -7559,7 +7559,7 @@ snapshots:
     dependencies:
       '@types/katex': 0.16.7
       devlop: 1.1.0
-      katex: 0.16.25
+      katex: 0.16.26
       micromark-factory-space: 2.0.1
       micromark-util-character: 2.1.1
       micromark-util-symbol: 2.0.1
