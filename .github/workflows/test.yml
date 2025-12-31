@@ -33,6 +33,8 @@ jobs:
             pkg=$(basename "$file" .lcov)
             ./codecov -f "$file" -F "$pkg"
           done
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       # - name: Upload coverage reports to Codecov
       #   continue-on-error: true
