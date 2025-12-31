@@ -14,6 +14,7 @@ if (!fs.existsSync(INPUT)) {
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
 const content = fs.readFileSync(INPUT, "utf8").replaceAll("\\", "/");
+
 const records = content
   .split("end_of_record")
   .map((r) => r.trim())
@@ -22,34 +23,34 @@ const records = content
 
 const byPackage = new Map<string, string[]>();
 
-for (const record of records) {
-  const sfLine = record.split("\n").find((line) => line.startsWith("SF:"));
+for (let record of records) {
+  const lines = record.split("\n");
+  const sfIndex = lines.findIndex((l) => l.startsWith("SF:"));
+  if (sfIndex === -1) continue;
 
-  if (!sfLine) continue;
-
-  // Normalize path
-  const filePath = sfLine.replace("SF:", "").replace(/\\/g, "/");
+  const filePath = lines[sfIndex].slice(3); // remove SF:
   const idx = filePath.indexOf(PACKAGE_PREFIX);
-
   if (idx === -1) continue;
 
   const rest = filePath.slice(idx + PACKAGE_PREFIX.length);
-  const pkg = rest.split("/")[0];
+  const [pkg, ...relativeParts] = rest.split("/");
+  if (!pkg || relativeParts.length === 0) continue;
 
-  if (!pkg) continue;
+  // Rewrite SF to be package-local (as if cwd = packages/<pkg>)
+  lines[sfIndex] = `SF:${relativeParts.join("/")}`;
+
+  record = `${lines.join("\n")}\n`;
 
   if (!byPackage.has(pkg)) byPackage.set(pkg, []);
   byPackage.get(pkg)!.push(record);
 }
 
-// Write files
 for (const [pkg, recs] of byPackage.entries()) {
   const out = path.join(OUT_DIR, `${pkg}.lcov`);
   fs.writeFileSync(out, recs.join(""), "utf8");
   console.log(`✓ ${pkg}: ${recs.length} records`);
 }
 
-// Optional: warn if nothing matched
 if (byPackage.size === 0) {
   console.warn("No package coverage found. Check paths in lcov.info");
 }

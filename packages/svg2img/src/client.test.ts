@@ -61,19 +61,22 @@ describe.concurrent("svgToBlob (client)", () => {
     expect(result.scale).toBe(3);
   });
 
-  it.each(["fill", "cover", "contain", "inside", "outside"])(
-    "renders correctly with fit=%s",
-    async (fit) => {
-      const result = await svgToBlob(SAMPLE_SVG, {
-        format: "png",
-        width: 80,
-        height: 40,
-        // @ts-expect-error -- it should be Fit but string
-        fit,
-      });
-      expect(result.blob).toBeInstanceOf(Blob);
-    },
-  );
+  it.each([
+    "fill",
+    "cover",
+    "contain",
+    "inside",
+    "outside",
+  ])("renders correctly with fit=%s", async (fit) => {
+    const result = await svgToBlob(SAMPLE_SVG, {
+      format: "png",
+      width: 80,
+      height: 40,
+      // @ts-expect-error -- it should be Fit but string
+      fit,
+    });
+    expect(result.blob).toBeInstanceOf(Blob);
+  });
 
   it("handles missing dimensions with fit modes", async () => {
     const result = await svgToBlob(SAMPLE_SVG, {
