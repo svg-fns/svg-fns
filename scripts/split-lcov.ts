@@ -13,7 +13,7 @@ if (!fs.existsSync(INPUT)) {
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
-const content = fs.readFileSync(INPUT, "utf8");
+const content = fs.readFileSync(INPUT, "utf8").replaceAll("\\", "/");
 const records = content
   .split("end_of_record")
   .map((r) => r.trim())
