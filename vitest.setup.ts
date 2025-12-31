@@ -105,26 +105,24 @@ vi.stubGlobal(
 const ActualURL = global.URL;
 
 // Define a mock constructor function
-const MockURL = vi.fn((url, base) => {
-  // You can optionally return a real URL object if the environment supports it
-  // and you want the new URL(...) to have actual URL properties (like .hostname, .pathname, etc.)
-  if (ActualURL) {
-    return new ActualURL(url, base);
-  }
-  // Otherwise, return a basic mock object with necessary properties
-  return {
-    href: url,
-    // Add other properties as needed:
-    pathname: url.split("/")[url.split("/").length - 1],
-    // ...
-  };
-});
+class MockURL {
+  href: string;
+  pathname: string;
 
-// Attach the static methods to the mock constructor
-// @ts-expect-error -- ok test
-MockURL.createObjectURL = vi.fn(() => "mock-object-url");
-// @ts-expect-error -- ok test
-MockURL.revokeObjectURL = vi.fn();
+  constructor(url: string, base?: string) {
+    if (ActualURL) {
+      const real = new ActualURL(url, base);
+      this.href = real.href;
+      this.pathname = real.pathname;
+    } else {
+      this.href = url;
+      this.pathname = url.split("/").pop()!;
+    }
+  }
+
+  static createObjectURL = vi.fn(() => "mock-object-url");
+  static revokeObjectURL = vi.fn();
+}
 
 // Define the global/window property
 Object.defineProperty(window, "URL", {

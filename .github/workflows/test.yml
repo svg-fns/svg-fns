@@ -24,8 +24,18 @@ jobs:
           cache: "pnpm"
       - name: Run unit tests
         run: pnpm test
-      - name: Upload coverage reports to Codecov
-        continue-on-error: true
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload per-package coverage
+        run: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+
+          for file in coverage/packages/*.lcov; do
+            pkg=$(basename "$file" .lcov)
+            ./codecov -f "$file" -F "$pkg"
+          done
+
+      # - name: Upload coverage reports to Codecov
+      #   continue-on-error: true
+      #   uses: codecov/codecov-action@v4
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}

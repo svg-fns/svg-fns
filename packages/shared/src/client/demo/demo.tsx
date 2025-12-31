@@ -8,7 +8,7 @@ const code = ``;
 
 /** React live demo */
 export function Demo() {
-  const dataUrl = svgToBlob("");
+  // const dataUrl = svgToBlob("");
   return (
     <LiveProvider code={code} scope={{ svgToBlob }}>
       <div className={styles.demo}>

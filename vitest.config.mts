@@ -27,7 +27,7 @@ export default defineConfig({
         "packages/shared/**/*.*",
         "packages/convert/**/*.*",
       ],
-      reporter: ["json", "text"],
+      reporter: ["lcov", "text"],
     },
   },
 });
