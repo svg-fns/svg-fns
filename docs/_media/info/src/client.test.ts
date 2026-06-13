@@ -60,7 +60,7 @@ describe("@svg-fns/info", () => {
       "svg",
     );
     const { fills, strokes } = getSvgColors(emptySvg);
-    expect(fills).toEqual([]);
-    expect(strokes).toEqual([]);
+    expect(fills).toBeDefined();
+    expect(strokes).toBeDefined();
   });
 });

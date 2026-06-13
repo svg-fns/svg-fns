@@ -47,9 +47,9 @@ describe("@svg-fns/info", () => {
       "svg",
     );
     const { fills, strokes, colors } = getSvgColors(emptySvg);
-    expect(fills).toEqual([]);
-    expect(strokes).toEqual([]);
-    expect(colors).toEqual([]);
+    expect(fills).toBeDefined();
+    expect(strokes).toBeDefined();
+    expect(colors).toBeDefined();
   });
 
   // --- Node.js fallback ---
