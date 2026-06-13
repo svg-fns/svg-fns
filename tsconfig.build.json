@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
     "rootDir": "../../",
     "paths": {
       "@svg-fns/*": ["packages/*/dist", "packages/*/src"]

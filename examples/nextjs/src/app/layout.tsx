@@ -1,4 +1,5 @@
 import "./styles.css";
+// @ts-expect-error -- some ts upgrade issue
 import "react18-loaders/styles";
 import { GlobalLoader, Header } from "@repo/shared";
 import { Layout } from "@repo/shared/dist/server";

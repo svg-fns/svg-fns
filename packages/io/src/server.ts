@@ -4,9 +4,11 @@ import {
 } from "./client";
 import type { IOConfig } from "./types";
 
-let DOMParserImpl: typeof DOMParser | undefined;
-let XMLSerializerImpl: typeof XMLSerializer | undefined;
+let DOMParserImpl: typeof import("@xmldom/xmldom")["DOMParser"] | undefined;
 
+let XMLSerializerImpl:
+  | typeof import("@xmldom/xmldom")["XMLSerializer"]
+  | undefined;
 /**
  * Ensures Node.js DOM APIs are loaded.
  * Lazy-imports @xmldom/xmldom if not already set.
@@ -60,7 +62,7 @@ export const serializeSvgServer = async (
   // biome-ignore lint/style/noNonNullAssertion: error thrown on previous step
   const Serializer = config.xmlSerializer ?? XMLSerializerImpl!;
   const serializer = new Serializer();
-  return serializer.serializeToString(element as unknown as Node);
+  return serializer.serializeToString(element as any);
 };
 
 /**

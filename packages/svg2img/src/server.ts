@@ -54,7 +54,9 @@ export const svgToBuffer = async (
     pipeline = pipeline.resize(finalWidth, finalHeight, { fit, background });
 
     const buffer = await pipeline
-      .toFormat(format, { quality: Math.round(quality * 100) })
+      .toFormat(format === "jpg" ? "jpeg" : format, {
+        quality: Math.round(quality * 100),
+      })
       .toBuffer();
 
     return { buffer, width: finalWidth, height: finalHeight, format, scale };

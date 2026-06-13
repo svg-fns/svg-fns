@@ -57,11 +57,11 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/node": "^24.6.1",
-    "@xmldom/xmldom": "^0.8.11",
+    "@types/node": "^25.9.3",
+    "@xmldom/xmldom": "^0.9.10",
     "esbuild-plugin-rdi": "^0.0.0",
-    "tsup": "^8.5.0",
-    "typescript": "^5.9.3"
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3"
   },
   "funding": [
     {

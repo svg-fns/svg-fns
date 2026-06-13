@@ -40,11 +40,11 @@
   },
   "devDependencies": {
     "@svg-fns/utils": "workspace:^",
-    "@types/node": "^24.6.1",
+    "@types/node": "^25.9.3",
     "esbuild-plugin-rdi": "^0.0.0",
-    "sharp": "^0.34.4",
-    "tsup": "^8.5.0",
-    "typescript": "^5.9.3"
+    "sharp": "^0.35.1",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3"
   },
   "funding": [
     {
