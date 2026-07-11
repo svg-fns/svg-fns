@@ -36,7 +36,7 @@
     "typedoc-plugin-rename-defaults": "^0.7.3",
     "vitest": "^4.1.10"
   },
-  "packageManager": "pnpm@11.10.0",
+  "packageManager": "pnpm@11.11.0",
   "engines": {
     "node": ">=20"
   }
