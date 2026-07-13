@@ -10,7 +10,6 @@
     "format": "biome check . --write",
     "lint": "biome check .",
     "lint:fix": "biome check . --write",
-    "preinstall": "tsx scripts/update-pm.ts",
     "prepare": "husky",
     "release": "tsx ./scripts/publish.ts",
     "sync": "turborepo-template-upgrade",
