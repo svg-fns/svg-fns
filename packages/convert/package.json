@@ -40,11 +40,11 @@
   },
   "devDependencies": {
     "@svg-fns/svg2img": "workspace:^",
-    "@types/node": "^25.9.3",
+    "@types/node": "^26.1.1",
     "esbuild-plugin-rdi": "^0.0.0",
-    "sharp": "^0.35.1",
+    "sharp": "^0.35.3",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "funding": [
     {
